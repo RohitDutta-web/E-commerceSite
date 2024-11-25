@@ -1,13 +1,17 @@
 import Nav from "./nav"
 import CategoryMenu from "./categoryMenu"
-import LatestProductBanner from "./latestProductBanner"
+import ProductBanner from "./productBanner"
+import ProductsHome from "./productsHome"
+
+
 
 export default function Home() {
   return (
     <>
       <Nav />
       <CategoryMenu />
-      <LatestProductBanner /> 
+      <ProductBanner /> 
+      <ProductsHome/>
     </>
   )
 }

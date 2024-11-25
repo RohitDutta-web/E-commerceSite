@@ -32,7 +32,7 @@ export default function Nav() {
        
         <CiMenuFries  className="lg:hidden md:flex absolute top-2 text-4xl right-2 cursor-pointer" onClick={handleMenu} />
         {
-          isOpen ?  <div className=" w-64 rounded-xl shadow-2xl absolute top-16 right-5 bg-white">
+          isOpen ?  <div className=" w-64 rounded-xl shadow-2xl absolute top-16 right-5 bg-white z-40 lg:hidden">
       <div className="w-full text-center">
           <p className="pt-2 pb-2 cursor-pointer font-semibold ">Home</p>
           <p className="pt-2 pb-2 cursor-pointer font-semibold ">About</p>
@@ -46,7 +46,8 @@ export default function Nav() {
           <div className=" hover:text-blue-600 cursor-pointer text-2xl"><IoCartOutline /></div>
           <div className=" hover:text-blue-600 cursor-pointer text-xl "><FaRegUser  /></div>
         </div>
-      </div>: null
+          </div>
+            : null
         }
 
 
