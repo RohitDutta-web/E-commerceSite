@@ -8,7 +8,7 @@ export const registerUser = async (req, res) => {
   try {
 
     const { name, email, phoneNumber, password } = req.body;
-    
+
     if (!name || !email || !phoneNumber || !password) {
       return res.status(400).json({
         message: "Missing credentials",
@@ -17,15 +17,15 @@ export const registerUser = async (req, res) => {
     }
 
     const existingUser = await User.findOne({ email })
-    
+
     if (existingUser) {
       return res.status(400).json({
         message: "User already exits",
         success: false
       })
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
 
     await User.create({
@@ -40,13 +40,11 @@ export const registerUser = async (req, res) => {
       success: true
     })
 
-   } catch (e) {
-    console.log(e);
+  } catch (e) {
     return res.status(500).json({
       message: "Internal Server error",
       success: false
     })
-    
   }
 }
 
@@ -60,7 +58,7 @@ export const logIn = async (req, res) => {
   try {
 
     const { email, password } = req.body;
-    
+
     if (!email || !password) {
       return res.status(400), json({
         message: "Missing credentials",
@@ -88,28 +86,50 @@ export const logIn = async (req, res) => {
 
 
     const tokenData = {
-      userId: user._id
+      id: user._id
     }
 
     const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" })
-    
-    user = {
-       _id: user._id,
 
+    user = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
     }
 
-   } catch (e) {
-    console.log(e);
+    res.status(200).json({
+      message: "login successful",
+      token,
+      user,
+      success: true
+    })
+
+  } catch (e) {
     return res.status(500).json({
       message: "Internal Server error",
       success: false
     })
-    
+
   }
 }
 
 
+export const getUserDetails = async () => {
+  try {
+    const user = await User.findById(req.user.id).populate("address").populate("products")
 
+    if (!user) {
+      return res.status(404).json({ message: "User not found." , success: false});
+    }
+
+    res.status(200).json(user);
+   } catch (e) {
+    res.status(500).json({
+      message: "Internal server issue!",
+      success: false,
+    })
+   }
+}
 
 
 
@@ -118,14 +138,30 @@ export const logIn = async (req, res) => {
 //user update
 export const updateUser = async (req, res) => {
   try {
+    const { name, phoneNumber, password } = req.body;
+    const user = await User.findById(req.user.id);
 
-   } catch (e) {
+    if (!user) {
+      return res.status(400).json({
+        message: "user not found",
+        success : false,
+      })
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    user.name = name || user.name;
+    user.phoneNumber = phoneNumber || user.phoneNumber;
+    user.password = hashedPassword || user.password;
+
+  } catch (e) {
     console.log(e);
     return res.status(500).json({
       message: "Internal Server error",
       success: false
     })
-    
+
   }
 }
 
@@ -145,13 +181,17 @@ export const updateUser = async (req, res) => {
 
 export const logOut = async (req, res) => {
   try {
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+      message: "Logged out successfully.",
+      success: true
+  })
 
-   } catch (e) {
+  } catch (e) {
     console.log(e);
     return res.status(500).json({
       message: "Internal Server error",
       success: false
     })
-    
+
   }
 }
