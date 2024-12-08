@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDb from "./config/db.js";
 import morgan from "morgan";
 import helmet from "helmet";
+import router from "./routes/user.routes.js";
 
 dotenv.config({})
 
@@ -15,10 +16,12 @@ app.use(helmet());
 
 
 app.use((err, req, res, next) => {
-  console.error(err.stack); 
+  console.error(err.stack);
   res.status(500).json({ message: "Something went wrong!" });
 });
 
+
+app.use(router);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
