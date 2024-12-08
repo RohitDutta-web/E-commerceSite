@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: true,
   },
   password: {
@@ -24,15 +24,29 @@ const userSchema = new mongoose.Schema({
   }],
   profile: {
     type: String,
-    enum: ["customer", "seller"],
+    enum: ["customer", "merchant", "admin"],
     required: true,
 
   },
   products: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
+  }],
+  wishList: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product"
+  }],
+  boughtItems: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product"
+  }],
+  soldItems: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product"
   }]
 }, { timestamps: true })
+
+userSchema.index({ email: 1 });
 
 const User = mongoose.model("User", userSchema)
 export default User

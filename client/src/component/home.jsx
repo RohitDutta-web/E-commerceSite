@@ -2,6 +2,8 @@ import Nav from "./nav"
 import CategoryMenu from "./categoryMenu"
 import ProductBanner from "./productBanner"
 import ProductsHome from "./productsHome"
+import BaseMenu from "./baseMenu"
+import SaleBanner from "./saleBanner"
 
 
 
@@ -11,7 +13,9 @@ export default function Home() {
       <Nav />
       <CategoryMenu />
       <ProductBanner /> 
-      <ProductsHome/>
+      <ProductsHome />
+      <BaseMenu />
+      <SaleBanner/>
     </>
   )
 }

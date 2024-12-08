@@ -19,15 +19,19 @@ const addressSchema = new mongoose.Schema({
   },
   zipCode: {
     type: Number,
-    required: true
+    required: true,
+    min: 100000,
+    max: 999999
   },
-  country:{
-  type: String,
+  country: {
+    type: String,
     required: true
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true,
+    index: true,
   }
 }, { timestamps: true })
 
