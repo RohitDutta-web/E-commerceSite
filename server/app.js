@@ -5,6 +5,7 @@ import connectDb from "./config/db.js";
 import morgan from "morgan";
 import helmet from "helmet";
 import router from "./routes/user.routes.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config({})
 
@@ -13,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(helmet());
-
+app.use(cookieParser());
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

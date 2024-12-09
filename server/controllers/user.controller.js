@@ -68,7 +68,7 @@ export const logIn = async (req, res) => {
     }
 
 
-    const user = await User.findOne({ email })
+    let user = await User.findOne({ email })
 
     if (!user) {
       return res.status(400).json({
@@ -98,7 +98,9 @@ export const logIn = async (req, res) => {
       email: user.email,
     }
 
-    res.status(200).json({
+    res.status(200).cookie("token", token,
+      { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'none' }
+    ).json({
       message: "login successful",
       token,
       user,
@@ -107,7 +109,7 @@ export const logIn = async (req, res) => {
 
   } catch (e) {
     return res.status(500).json({
-      message: "Internal Server error",
+      message: "Internal server error!",
       success: false
     })
 
@@ -115,21 +117,21 @@ export const logIn = async (req, res) => {
 }
 
 
-export const getUserDetails = async () => {
+export const getUserDetails = async (req,res) => {
   try {
     const user = await User.findById(req.user.id).populate("address").populate("products")
 
     if (!user) {
-      return res.status(404).json({ message: "User not found." , success: false});
+      return res.status(404).json({ message: "User not found.", success: false });
     }
 
     res.status(200).json(user);
-   } catch (e) {
+  } catch (e) {
     res.status(500).json({
       message: "Internal server issue!",
       success: false,
     })
-   }
+  }
 }
 
 
@@ -145,7 +147,7 @@ export const updateUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         message: "user not found",
-        success : false,
+        success: false,
       })
     }
 
@@ -185,7 +187,7 @@ export const logOut = async (req, res) => {
     return res.status(200).cookie("token", "", { maxAge: 0 }).json({
       message: "Logged out successfully.",
       success: true
-  })
+    })
 
   } catch (e) {
     console.log(e);
