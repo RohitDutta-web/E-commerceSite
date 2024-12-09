@@ -7,9 +7,9 @@ import jwt from "jsonwebtoken"
 export const registerUser = async (req, res) => {
   try {
 
-    const { name, email, phoneNumber, password } = req.body;
+    const { name, email, phoneNumber, password, profile } = req.body;
 
-    if (!name || !email || !phoneNumber || !password) {
+    if (!name || !email || !phoneNumber || !password || !profile) {
       return res.status(400).json({
         message: "Missing credentials",
         success: false
@@ -32,7 +32,8 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      phoneNumber
+      phoneNumber,
+      profile,
     })
 
     return res.status(200).json({

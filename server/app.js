@@ -21,7 +21,7 @@ app.use((err, req, res, next) => {
 });
 
 
-app.use(router);
+app.use("/api/user",router);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {

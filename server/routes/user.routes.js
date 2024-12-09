@@ -3,10 +3,10 @@ import { registerUser, logIn, getUserDetails, updateUser,logOut } from "../contr
 import { authMiddleWare } from "../middleWares/auth.middleWare.js";
 const router = express();
 
-router.post("api/register", registerUser);
-router.post("api/login", logIn);
-router.get("api/getUserDetails", authMiddleWare, getUserDetails);
-router.post("api/update", authMiddleWare, updateUser);
-router.get("api/logout", authMiddleWare, logOut);
+router.post("/register", registerUser);
+router.post("/login", logIn);
+router.get("/getUserDetails", authMiddleWare, getUserDetails);
+router.post("/profile/update", authMiddleWare, updateUser);
+router.get("/logout", logOut);
 
 export default router;
