@@ -31,6 +31,11 @@ export default function ProductsHome() {
             />
         </div>
       </div>
+
+      <div className="w-full flex justify-center flex-col items-center mt-10">
+        <p className="text-xl">That's not everything!</p>
+        <button className="border-2 border-black pt-2 pb-2 pl-5 pr-5 mt-5 hover:border-white hover:text-white hover:bg-black">Explore More!</button>
+      </div>
     </>
   )
 }

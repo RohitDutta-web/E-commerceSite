@@ -6,6 +6,9 @@ import { FaAnchor } from "react-icons/fa";
 import { useState } from "react";
 import { CiMenuFries } from "react-icons/ci";
 
+import { Link } from "react-router-dom";
+
+
 export default function Nav() {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -14,8 +17,10 @@ export default function Nav() {
   const handleMenu = () => {
     setIsOpen(!isOpen);
   }
+
   return (
     <>
+      
       <div className="flex w-screen h-auto bg-transparent  items-center sm:justify-center ">
         <div className="text-2xl font-bold w-1/4 flex justify-end pr-5 sm:justify-end sm:w-1/6">
           <div className="flex items-center gap-1">
@@ -34,17 +39,17 @@ export default function Nav() {
         {
           isOpen ?  <div className=" w-64 rounded-xl shadow-2xl absolute top-16 right-5 bg-white z-40 lg:hidden">
       <div className="w-full text-center">
-          <p className="pt-2 pb-2 cursor-pointer font-semibold ">Home</p>
-          <p className="pt-2 pb-2 cursor-pointer font-semibold ">About</p>
-          <p className="pt-2 pb-2 cursor-pointer font-semibold ">Contact</p>
-          <p className="pt-2 pb-2 cursor-pointer font-semibold ">Blog</p>
+          <p className="pt-2 pb-2 cursor-pointer font-semibold "><Link to="/">Home</Link></p>
+          <p className="pt-2 pb-2 cursor-pointer font-semibold "><Link to="/about">About</Link></p>
+          <p className="pt-2 pb-2 cursor-pointer font-semibold "><Link to="/contact">Contact</Link></p>
+          <p className="pt-2 pb-2 cursor-pointer font-semibold "><Link to="/blog">Blog</Link></p>
         </div>
 
 
         <div className="flex w-full justify-around p-2  text-xl border-2 border-zinc-300 rounded-b-lg  bg-white">
-          <div className=" hover:text-blue-600 cursor-pointer "><FaRegHeart /></div>
-          <div className=" hover:text-blue-600 cursor-pointer text-2xl"><IoCartOutline /></div>
-          <div className=" hover:text-blue-600 cursor-pointer text-xl "><FaRegUser  /></div>
+          <div className=" hover:text-blue-600 cursor-pointer "><Link to="/wishList"><FaRegHeart /></Link></div>
+          <div className=" hover:text-blue-600 cursor-pointer text-2xl"><Link to="/cart"><IoCartOutline /></Link></div>
+          <div className=" hover:text-blue-600 cursor-pointer text-xl "><Link to="/profile"><FaRegUser  /></Link></div>
         </div>
           </div>
             : null
@@ -52,17 +57,17 @@ export default function Nav() {
 
 
         <div className="md:flex lg:flex justify-evenly w-1/4 items-center gap-2  sm:hidden">
-          <p>Home</p>
-          <p>About</p>
-          <p>Contact</p>
-          <p>Blog</p>
+          <p><Link to="/">Home</Link></p>
+          <p><Link to="/about">About</Link></p>
+          <p><Link to="/contact">Contact</Link></p>
+          <p><Link to="/blog">Blog</Link></p>
         </div>
 
 
         <div className="md:flex lg:flex sm:hidden justify-center gap-5  w-1/4 text-xl">
-          <div><FaRegHeart /></div>
-          <div className="text-2xl"><IoCartOutline /></div>
-          <div className="text-2xl"><FaRegUser  /></div>
+          <div><Link to="/wishList"><FaRegHeart /></Link></div>
+          <div className="text-2xl"><Link to="/cart"><IoCartOutline /></Link></div>
+          <div className="text-2xl"><Link to="/profile"><FaRegUser  /></Link></div>
         </div>
 
 

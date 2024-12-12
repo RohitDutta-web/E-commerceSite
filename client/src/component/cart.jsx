@@ -1,6 +1,6 @@
 
 
-export default function SaleBanner() {
+export default function Cart() {
   return (
     <div>
       

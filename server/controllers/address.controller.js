@@ -31,6 +31,7 @@ export const enlistAddress = async (req, res) => {
 
 
   } catch (e) {
+    console.error(e)
     return res.status(500).json({
       message: "Internal server error!",
       success: false,
@@ -69,9 +70,4 @@ export const updateAddress = async (req, res) => {
       success: false
     })
   }
- }
-
-export const getAddress = async (req, res) => {
-
-  try {}catch(e){}
  }

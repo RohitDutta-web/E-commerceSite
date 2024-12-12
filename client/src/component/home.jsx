@@ -3,7 +3,8 @@ import CategoryMenu from "./categoryMenu"
 import ProductBanner from "./productBanner"
 import ProductsHome from "./productsHome"
 import BaseMenu from "./baseMenu"
-import SaleBanner from "./saleBanner"
+
+import Footer from "./footer"
 
 
 
@@ -15,7 +16,8 @@ export default function Home() {
       <ProductBanner /> 
       <ProductsHome />
       <BaseMenu />
-      <SaleBanner/>
+  
+      <Footer/>
     </>
   )
 }
