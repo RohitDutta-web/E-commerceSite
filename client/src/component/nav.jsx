@@ -21,7 +21,7 @@ export default function Nav() {
   return (
     <>
       
-      <div className="flex w-screen h-auto bg-transparent  items-center sm:justify-center ">
+      <div className="flex w-full h-auto bg-transparent  items-center sm:justify-center max-w-screen">
         <div className="text-2xl font-bold w-1/4 flex justify-end pr-5 sm:justify-end sm:w-1/6">
           <div className="flex items-center gap-1">
             <FaAnchor />Esite
