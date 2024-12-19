@@ -4,8 +4,9 @@ import cors from "cors";
 import connectDb from "./config/db.js";
 import morgan from "morgan";
 import helmet from "helmet";
-import router from "./routes/user.routes.js";
+import userRouter from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
+import addressRouter from "./routes/address.routes.js";
 
 dotenv.config({})
 
@@ -22,10 +23,11 @@ app.use((err, req, res, next) => {
 });
 
 
-app.use("/api/user",router);
+app.use("/api/user", userRouter);
+app.use("/api/address",addressRouter);
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log("Server is running!");
   connectDb();
-})
+});

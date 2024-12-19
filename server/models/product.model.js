@@ -16,8 +16,7 @@ const productSchema = new mongoose.Schema({
     min: 0
   },
   picture: {
-    type: String,
-    required: true
+    type: String
   },
   brand: {
     type: String,
@@ -25,7 +24,7 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["phone", "desktop accessories" , "laptop" , "smart watch" , "camera" , "PC" , "others"],
+    enum: ["phone", "desktop accessories" , "laptop" , "smart watch" , "camera" , "PC" , "headphones", "others"],
     required: true,
   }
   ,

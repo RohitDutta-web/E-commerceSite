@@ -72,7 +72,7 @@ export const logIn = async (req, res) => {
 
     if (!user) {
       return res.status(400).json({
-        message: "Invalid user!",
+        message: "Invalid user",
         success: false
       })
     }
@@ -119,7 +119,7 @@ export const logIn = async (req, res) => {
 
 export const getUserDetails = async (req,res) => {
   try {
-    const user = await User.findById(req.user.id).populate("address").populate("products")
+    const user = await User.findById(req.user.id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found.", success: false });
@@ -154,9 +154,14 @@ export const updateUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    user.name = name || user.name;
-    user.phoneNumber = phoneNumber || user.phoneNumber;
-    user.password = hashedPassword || user.password;
+    user.name = name ;
+    user.phoneNumber = phoneNumber;
+    user.password = hashedPassword;
+    await user.save();
+    return res.status(200).json({
+      message: "Update complete",
+      success: true
+   })
 
   } catch (e) {
     console.log(e);

@@ -13,6 +13,10 @@ const addressSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  district: {
+    type: String,
+    required: true
+  },
   state: {
     type: String,
     required: true
@@ -30,8 +34,7 @@ const addressSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    index: true,
+    required: true
   }
 }, { timestamps: true })
 

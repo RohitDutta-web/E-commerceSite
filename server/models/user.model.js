@@ -18,10 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  address: [{
+  address: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
-  }],
+    ref: "Address"
+  },
   profile: {
     type: String,
     enum: ["customer", "merchant", "admin"],
@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
     ref: "Product"
   }],
   soldItems: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product"
+  }],
+  cart:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product"
   }]
