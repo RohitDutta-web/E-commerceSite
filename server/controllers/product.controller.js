@@ -32,7 +32,7 @@ export const registerProduct = async (req, res) => {
     })
 
     await product.save()
-     user.products.push(product._id)
+    user.products.push(product._id)
 
     await user.save();
 
@@ -41,7 +41,7 @@ export const registerProduct = async (req, res) => {
       success: true
     })
 
-   } catch (e) {
+  } catch (e) {
     return res.status(500).json({
       message: "Server issue",
       success: false
@@ -53,7 +53,7 @@ export const registerProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
-    const { title, description, price, picture, stock } = req.body;
+    const { title, description, price, stock } = req.body;
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(400).json({
@@ -65,7 +65,7 @@ export const updateProduct = async (req, res) => {
     product.title = title;
     product.description = description;
     product.price = price;
-    product.picture = picture;
+
     product.stock = stock;
 
     await product.save();
@@ -77,7 +77,7 @@ export const updateProduct = async (req, res) => {
 
 
 
-   } catch (e) {
+  } catch (e) {
     return res.status(500).json({
       message: "Server issue!",
       success: false
@@ -86,32 +86,32 @@ export const updateProduct = async (req, res) => {
 }
 
 export const deleteProduct = async (req, res) => {
-  
-  try { 
+
+  try {
     const productId = req.params.id;
     const product = await Product.findById(productId);
-    if (product) {
+    if (!product) {
       return res.status(400).json({
         message: "Invalid product",
         success: false
       })
     }
 
-    await Product.remove({ "_id": productId })
-    
+    await Product.deleteOne({ "_id": productId })
+
     return res.status(200).json({
       message: "Product removed",
       success: false
     })
   } catch (e) {
     return res.status(500).json({
-      message: "Server issue"
+      message: "Server issue", success: false
     })
   }
 }
 
 export const getAllProductDetails = async (req, res) => {
-  try { 
+  try {
     const products = await Product.find({});
     if (!products) {
       return res.status(400).json({
@@ -131,19 +131,105 @@ export const getAllProductDetails = async (req, res) => {
       success: false
     })
   }
-  
+
 }
 
 export const getProductDetailsById = async (req, res) => {
-  
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(400).json({
+        message: "Invalid product",
+        success: false
+      })
+    }
+
+
+    return res.status(200).json({
+      product,
+      success: true
+    })
+  } catch (e) {
+    return res.status(500).json({
+      success: false,
+      message: "Server issue"
+    })
+  }
+
 }
 
 export const addToCart = async (req, res) => {
-  
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(400).json({
+        message: "Invalid product",
+        success: false
+      })
+    }
+    const userid = req.user.id;
+    const user = await User.findById(userid);
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid product",
+        success: false
+      })
+    }
+
+    user.cart.push(product._id);
+    await user.save();
+    return res.status(200).json({
+      message: "Added to cart",
+      success: true
+    })
+
+
+  } catch (e) {
+    return res.status(500).json({
+      message: "Server issue",
+      success: false
+    })
+  }
 }
 
 export const addToWishList = async (req, res) => {
-  
+  try {
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(400).json({
+        message: "Invalid product",
+        success: false
+      })
+    }
+    const userid = req.user.id;
+    const user = await User.findById(userid);
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid product",
+        success: false
+      })
+    }
+
+
+
+    user.wishList.push(productId);
+    await user.save();
+
+    return res.status(200).json({
+      message: "Added to Wishlist",
+      success: true
+    })
+
+
+  } catch (e) {
+    return res.status(500).json({
+      message: "Server issue",
+      success: false
+    })
+  }
 }
 
-export const getSellerProductDetails = async(req, res) => {}

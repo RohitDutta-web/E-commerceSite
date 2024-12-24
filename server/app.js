@@ -7,8 +7,13 @@ import helmet from "helmet";
 import userRouter from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
 import addressRouter from "./routes/address.routes.js";
+import productRouter from "./routes/products.routes.js";
+import EventEmitter  from "events";
 
 dotenv.config({})
+const emitter = new EventEmitter();
+
+emitter.setMaxListeners(20);
 
 const app = express();
 app.use(cors());
@@ -24,7 +29,8 @@ app.use((err, req, res, next) => {
 
 
 app.use("/api/user", userRouter);
-app.use("/api/address",addressRouter);
+app.use("/api/address", addressRouter);
+app.use("/api/product", productRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
