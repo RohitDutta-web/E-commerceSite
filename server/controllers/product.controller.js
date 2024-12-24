@@ -111,7 +111,21 @@ export const deleteProduct = async (req, res) => {
 }
 
 export const getAllProductDetails = async (req, res) => {
-  try { } catch (e) {
+  try { 
+    const products = await Product.find({});
+    if (!products) {
+      return res.status(400).json({
+        message: "No products",
+        success: false
+      })
+    }
+
+    return res.status(200).json({
+      products,
+      success: true
+    })
+
+  } catch (e) {
     return res.status(500).json({
       message: "server issue!",
       success: false
@@ -131,3 +145,5 @@ export const addToCart = async (req, res) => {
 export const addToWishList = async (req, res) => {
   
 }
+
+export const getSellerProductDetails = async(req, res) => {}
