@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 
 const productSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
   },
@@ -28,7 +28,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   }
   ,
-  createdBy: {
+  enlistedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref:"User"
   },
@@ -42,12 +42,11 @@ const productSchema = new mongoose.Schema({
     min: [0, "Rating cannot be below 0"],
     max: [5, "Rating cannot exceed 5"],
     default: 0,
+  }
   },
-  count: {
-    type: Number,
-    default: 0,
-  },
-}
+  sold: {
+    type: Number
+  }
 })
 productSchema.index({ name: 1, category: 1 });
 
