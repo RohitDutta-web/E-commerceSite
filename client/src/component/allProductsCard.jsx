@@ -1,22 +1,11 @@
 
 import { FaStar } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
-import { useState } from "react";
-import { FaCartShopping } from "react-icons/fa6";
+
 
 
 export default function AllProductsCard({ image, title, price, rating }) {
 
-  const [wishListed, setWishlisted] = useState(false);
- const [carted,setCarted] = useState(false);
 
-  const handleWishlisting = () => {
-    setWishlisted(!wishListed);
-  }
-
-  const handleCarted = () => {
-    setCarted(!carted);
-  }
   return (
     <>
       <div className="flex">
@@ -38,8 +27,7 @@ export default function AllProductsCard({ image, title, price, rating }) {
         </div>
         
       </div>
-        <FaHeart className={wishListed ? "relative right-10 text-2xl top-10 text-red-500 cursor-pointer" : "relative right-10 text-2xl top-10 text-black cursor-pointer"} onClick={handleWishlisting} />
-        <FaCartShopping  className={carted ? "relative right-40 text-2xl top-10 text-green-600 cursor-pointer" : "relative right-40 text-2xl top-10 text-black cursor-pointer"} onClick={handleCarted}  />
+       
       </div>
     </>
   )

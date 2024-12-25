@@ -6,6 +6,7 @@ import './App.css'
 import Home from './component/home'
 import Profile from "./component/profile";
 import Products from "./component/products";
+import ProductPage from "./component/productPage";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/products" element={<Products />} />
         <Route path="/" element={<Home />} />
+        <Route path="/product" element={<ProductPage/> } />
       </Routes>
     </>
   )

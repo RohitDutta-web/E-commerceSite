@@ -1,12 +1,9 @@
-import { FaRegHeart } from "react-icons/fa6";
+
 import PropTypes from 'prop-types';
-import { useState } from "react";
+
 
 export default function ProductCard({ image, name, price }) {
-  const [wishListed, setwishListed] = useState(false)
-  const handleWishList = () => { 
-    setwishListed(!wishListed)
-  }
+  
 
 
 
@@ -14,7 +11,7 @@ export default function ProductCard({ image, name, price }) {
     <>
       <div className="bg-zinc-100 w-40 h-[340px] flex-col justify-between">
         <div>
-        <div className="w-full flex justify-end p-2 bg-transparent text-zinc-400"><FaRegHeart onClick={handleWishList} className={wishListed ? " text-red-600" : ""} /></div>
+       
         <div className="p-2"><img src={image} alt="" /></div>
         <div className="w-full text-center font-semibold p-2">
           <p>{name }</p>
