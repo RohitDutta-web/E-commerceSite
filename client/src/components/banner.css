@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.banner{
+  font-family: "Montserrat", serif;
+  animation: entry 2s ease-in-out;
+}
+
+
+@keyframes entry {
+  0%{
+    position: absolute;
+    left: -100vw;
+    top: 30%;
+  }
+
+  100%{
+    position: absolute;
+    left: 5%;
+    top: 30%;
+  }
+}
+
+
+.banner-text{
+ animation: onScroll 3s linear forwards;
+ animation-timeline: scroll(y);
+}
+
+@keyframes onScroll {
+0%{
+  position: absolute;
+  top: 30%;
+  scale: 1 1;
+
+}
+
+
+100%{
+  position: absolute;
+  scale: 0 0;
+  top: 0%;
+}
+}
+
+
