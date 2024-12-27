@@ -22,7 +22,7 @@
 
 
 .banner-text{
- animation: onScroll 3s linear forwards;
+ animation: onScroll 1s linear forwards;
  animation-timeline: scroll(y);
 }
 
