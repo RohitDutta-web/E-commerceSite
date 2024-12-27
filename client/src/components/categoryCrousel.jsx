@@ -24,7 +24,7 @@ const responsive = {
 export default function CategoryCrousel() {
   return (
     <>
-      <Carousel responsive={responsive} className="mt-10 mb-10 br-transparent">
+      <Carousel responsive={responsive} className="mt-10 mb-10 br-transparent z-30">
         <div >
           <div className="w-[90%] cursor-pointer bg-zinc-300 h-48 bg-[url('https://th.bing.com/th/id/OIP.m5Y6dWxHZBbFsXem7dYh_gHaHV?rs=1&pid=ImgDetMain')] bg-center bg-cover  ">
             <p className="bg-transparent font-bold text-xl text-center relative top-1/2  text-white ">Phones</p>

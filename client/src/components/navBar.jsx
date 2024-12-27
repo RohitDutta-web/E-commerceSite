@@ -30,7 +30,7 @@ export default function NavBar() {
           <ImMenu className="bg-transparent"/>
           </PopoverTrigger>
 
-          <PopoverContent>
+          <PopoverContent className="z-40">
             <div className="flex flex-col pb-5 mt-2 border-b-2 items-center gap-2">
               <Link to={"/"}>
               <p className="cursor-pointer">Home</p>
@@ -48,7 +48,7 @@ export default function NavBar() {
             <div className="flex w-full justify-around text-2xl  mt-2 ">
               <FaShoppingCart className="cursor-pointer"/>
               <FaHeart className="cursor-pointer"/>
-              <FaUser className="cursor-pointer"/>
+              <Link to={'/user'}><FaUser className="cursor-pointer"/></Link>
             </div>
           </PopoverContent>
       </Popover>

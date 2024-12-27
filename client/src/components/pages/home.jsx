@@ -3,7 +3,7 @@ import Banner from "../banner"
 import CategoryCrousel from "../categoryCrousel"
 import { Bento } from "../bento"
 import Footer from "../footer"
-
+import Suggest from "../suggest"
 export default function Home() {
   return (
     <>
@@ -11,7 +11,8 @@ export default function Home() {
       <Banner />
       <CategoryCrousel />
       <Bento />
-      <Footer/>
+      <Suggest />
+      <Footer />
     </>
   )
 }
