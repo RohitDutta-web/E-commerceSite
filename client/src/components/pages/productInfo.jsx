@@ -2,26 +2,31 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import ShinyButton from "@/components/ui/shiny-button";
 import NavBar from '../navBar';
+import { useLocation } from 'react-router-dom';
 
 
 
 export default function ProductInfo() {
+  const location = useLocation();
+  console.log(location);
+
+  const { product } = location.state;
+  console.log(product);
+
   return (
     <>
       <NavBar />
       <div className="w-full lg:flex xl:flex 2xl:flex md:flex sm:flex xs:flex-col gap-5 p-10 max-w-screen items-center">
-        <img src="https://m.media-amazon.com/images/I/316ArzLeJ2L._SX300_SY300_QL70_FMwebp_.jpg" alt="" className="shadow-2xl m-5 w-auto h-auto" />
+        <img src={product.picture} alt="" className="shadow-2xl m-5 w-auto h-auto" />
         <div>
-          <h1 className='font-bold text-2xl'>Title</h1>
+          <h1 className='font-bold text-2xl'>{product.name}</h1>
           <p className='text-xl'>
-            Lorem ipsum
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id optio, assumenda soluta unde quod repellat dolores eius reiciendis iure maiores inventore sed possimus hic distinctio atque nisi expedita aperiam error.
-            dolor sit amet consectetur, adipisicing elit. Iure, odit doloribus. Vel consectetur omnis, eaque necessitatibus sunt reprehenderit excepturi nam quis. Deleniti suscipit, eligendi h
-            ic laboriosam ab repellat quae impedit!
+            {product.description}
           </p>
           <Box sx={{ '& > legend': { mt: 2 } }}>
-            <Rating name="read-only" value={4} readOnly />
+            <Rating name="read-only" value={product.rating} readOnly />
           </Box>
+          <p className='text-xl'>${product.price}</p>
         </div>
       </div>
 

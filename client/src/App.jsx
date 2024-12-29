@@ -17,7 +17,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/user" element={<User />} />
         <Route path="/allProducts" element={<AllProducts />} />
-        <Route path="/productInfo/:id" element={<ProductInfo />} />
+        <Route path="/:id" element={<ProductInfo />} />
       </Routes>
 
     </BrowserRouter>

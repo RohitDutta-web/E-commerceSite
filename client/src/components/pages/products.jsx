@@ -2,6 +2,27 @@
 import ProductCard from "../productCard"
 import { Link } from "react-router-dom"
 export default function AllProducts() {
+
+  const products = [
+    {
+      id: "5w6ds8e7wd23a7ws64",
+      name: "Iphone",
+      description: "iphone 16, newly launched 256 gb , blue , retina display bla bla bla bla",
+      category: "phones",
+      rating: 4.5,
+      picture: "https://m.media-amazon.com/images/I/31lr3Ij6iBL._SY445_SX342_QL70_FMwebp_.jpg",
+      price: 1000
+    },
+    {
+      id: "5w6dsawdsdt765e7wd23a7ws64",
+      name: "Mac Book",
+      description: "Apple MacBook Air Laptop: Apple M1 chip, 13.3-inch/33.74 cm Retina Display, 8GB RAM, 256GB SSD Storage, Backlit Keyboard, FaceTime HD Camera, Touch ID. Works with iPhone/iPad; Space Grey",
+      category: "laptop",
+      rating: 4,
+      picture: "https://m.media-amazon.com/images/I/316ArzLeJ2L._SX300_SY300_QL70_FMwebp_.jpg",
+      price: 2800
+    }
+  ];
   return (
     <>
       <p className="w-full text-center font-bold text-xl mt-5 mb-5">All Products</p>
@@ -94,11 +115,15 @@ export default function AllProducts() {
 
         </div>
         <div className="flex flex-wrap gap-5">
-          <Link to="/productInfo/5w6ds8e7wd23a7ws64"><ProductCard name={"Iphone"} category={"phones"} picture={"https://m.media-amazon.com/images/I/31lr3Ij6iBL._SY445_SX342_QL70_FMwebp_.jpg"} price={1000} /></Link>
-          <ProductCard name={"Iphone"} category={"phones"} picture={"https://m.media-amazon.com/images/I/31lr3Ij6iBL._SY445_SX342_QL70_FMwebp_.jpg"} price={1000} />
-          <ProductCard name={"Iphone"} category={"phones"} picture={"https://m.media-amazon.com/images/I/31lr3Ij6iBL._SY445_SX342_QL70_FMwebp_.jpg"} price={1000} />
-          <ProductCard name={"Iphone"} category={"phones"} picture={"https://m.media-amazon.com/images/I/31lr3Ij6iBL._SY445_SX342_QL70_FMwebp_.jpg"} price={1000} />
-          <ProductCard name={"Iphone"} category={"phones"} picture={"https://m.media-amazon.com/images/I/31lr3Ij6iBL._SY445_SX342_QL70_FMwebp_.jpg"} price={1000} />
+          {
+            products.map((product) => (
+              <Link to={`/${product.id}`}
+                state={{ product }}
+                key={product.id}>
+              <ProductCard {...product} /> 
+              </Link>
+            ))
+ }
         </div>
       </div>
     </>
