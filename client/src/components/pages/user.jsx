@@ -27,7 +27,7 @@ import Footer from "../footer"
 
 
 export default function User() {
-  const [loggedin, setLoggedin] = useState(true);
+  const [loggedin, setLoggedin] = useState(false);
   const [form, setForm] = useState("login");
 
   return (

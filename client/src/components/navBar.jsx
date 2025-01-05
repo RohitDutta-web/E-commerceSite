@@ -46,8 +46,12 @@ export default function NavBar() {
               </Link>
             </div>
             <div className="flex w-full justify-around text-2xl  mt-2 ">
+              <Link to="/cart">
               <FaShoppingCart className="cursor-pointer"/>
+              </Link>
+              <Link to="/wishList">
               <FaHeart className="cursor-pointer"/>
+              </Link>
               <Link to={'/user'}><FaUser className="cursor-pointer"/></Link>
             </div>
           </PopoverContent>
