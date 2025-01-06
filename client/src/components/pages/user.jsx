@@ -9,6 +9,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { toast } from "sonner"
+
 
 import {
   AlertDialog,
@@ -23,13 +25,81 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import Footer from "../footer"
+import axios from "axios"
 
 
 
 export default function User() {
   const [loggedin, setLoggedin] = useState(false);
   const [form, setForm] = useState("login");
+  const [signUpFormData, setSignUpFormData] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    profile: "customer"
+  })
+ const [userData, setUserData] = useState()
 
+  const [logInData, setLogInData] = useState({
+    email: "",
+    password: ""
+
+  })
+  const onChangeSignUp = (e) => {
+    const { name, value } = e.target
+    setSignUpFormData({
+      ...signUpFormData,
+      [name]: value,
+    })
+  }
+
+  const onChangeLogIn = (e) => {
+    const { name, value } = e.target
+    setLogInData({
+      ...logInData,
+      [name]: value,
+    })
+  }
+
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.post("http://localhost:3000/api/user/register", signUpFormData, {
+       headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+  
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setForm("login")
+      } 
+    } catch(e) {
+      return toast.error(e.response.data.message);
+  }
+
+  }
+
+
+  const handleLogIn = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.post("http://localhost:3000/api/user/login", logInData, {
+       headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+  
+      if (res.data.success) {
+        toast.success(res.data.message);
+        setUserData(res.data.user)
+        setLoggedin(true);
+   
+      } 
+    } catch(e) {
+      return toast.error(e.response.data.message);
+  }
+
+  }
   return (
     <>
       <NavBar />
@@ -41,9 +111,9 @@ export default function User() {
 
             <form action="" className="flex flex-col">
               <label htmlFor="" className="mt-2 mb-1">Name</label>
-              <input type="text" value="Rohit Dutta" readOnly className="outline-none bg-zinc-200 p-2" />
+              <input type="text" value={userData.name} readOnly className="outline-none bg-zinc-200 p-2" />
               <label htmlFor="" className="mt-2 mb-1">Phone Number</label>
-              <input type="text" value="9999999999" readOnly className="outline-none bg-zinc-200 p-2" />
+              <input type="text" value={userData.phoneNumber} readOnly className="outline-none bg-zinc-200 p-2" />
             </form>
 
             <Dialog>
@@ -115,7 +185,7 @@ export default function User() {
             </div>
             <form action="" className="flex flex-col w-full ">
               <label htmlFor="" className="mt-2 mb-1">Street</label>
-              <input type="text" value="Some street name" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value="address" readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">Land mark</label>
               <input type="text" value="Some land mark" readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">City</label>
@@ -158,36 +228,39 @@ export default function User() {
         :
         <div className="w-full max-w-screen h-auto mt-20 flex justify-center">
           {(form === "login") ? <div className=" w-1/2 shadow-[0_1px_6px_2px_rgba(0,0,0,0.35)] h-auto p-5 rounded-xl  ">
-            <form action="" className="flex flex-col">
-              <label htmlFor="" className="font-bold mt-2 mb-2">Email</label>
-              <input className="rounded outline-none p-2 bg-zinc-200 " type="Email" name="" id="" placeholder="Enter mail id" />
-              <label htmlFor="" className="font-bold mt-2 mb-2">Password</label>
-              <input className="rounded outline-none p-2 bg-zinc-200 " type="password" placeholder="Enter password" />
+            <form action="" className="flex flex-col" onSubmit={handleLogIn}>
+              <label htmlFor="email" className="font-bold mt-2 mb-2">Email</label>
+              <input className="rounded outline-none p-2 bg-zinc-200 " type="Email" name="email" id="email" placeholder="Enter mail id" onChange={onChangeLogIn} />
+              <label htmlFor="password" className="font-bold mt-2 mb-2">Password</label>
+              <input className="rounded outline-none p-2 bg-zinc-200 " type="password" placeholder="Enter password" name="password" id="password" onChange={onChangeLogIn} />
               <input className="rounded  mt-4 outline  pt-2 pb-2 text-center font-bold hover:bg-zinc-900 hover:text-white   cursor-pointer" type="submit" value="login" />
             </form>
             <p className="text-xs mt-5 ">don&apos;t have an account ? <span className="cursor-pointer text-blue-600" onClick={() => setForm("signup")}>sign up here !</span></p>
           </div>
 
             :
+
+
+
             <div className=" w-1/2 shadow-[0_1px_6px_2px_rgba(0,0,0,0.35)] h-auto p-5 rounded-xl">
-              <form action="" className="flex flex-col">
-                <label htmlFor="" className="font-bold mt-2 mb-2">Name</label>
-                <input className="rounded outline-none p-2 bg-zinc-200 " type="text" name="" id="" placeholder="Enter Name" />
-                <label htmlFor="" className="font-bold mt-2 mb-2">Email</label>
-                <input className="rounded outline-none p-2 bg-zinc-200 " type="email" name="" id="" placeholder="Enter mail id" />
-                <label htmlFor="" className="font-bold mt-2 mb-2">Phone Number</label>
-                <input className="rounded outline-none p-2 bg-zinc-200 " type="text" placeholder="Enter phone number" />
-                <label htmlFor="" className="font-bold mt-2 mb-2">Password</label>
-                <input className="rounded outline-none p-2 bg-zinc-200 " type="password" placeholder="Enter password" />
-                <label htmlFor="" className="font-bold mt-2 mb-2">Profile</label>
-                <input className="rounded outline-none p-2 bg-zinc-200 " type="text" value="customer" readOnly />
+              <form action="" className="flex flex-col" onSubmit={handleSignUp}>
+                <label htmlFor="name" className="font-bold mt-2 mb-2">Name</label>
+                <input className="rounded outline-none p-2 bg-zinc-200 " type="text" name="name" id="name" placeholder="Enter Name" onChange={onChangeSignUp} />
+                <label htmlFor="email" className="font-bold mt-2 mb-2">Email</label>
+                <input className="rounded outline-none p-2 bg-zinc-200 " type="email" name="email" id="email" placeholder="Enter mail id" onChange={onChangeSignUp} />
+                <label htmlFor="phoneNumber" className="font-bold mt-2 mb-2">Phone Number</label>
+                <input className="rounded outline-none p-2 bg-zinc-200 " type="text" placeholder="Enter phone number" name="phoneNumber" id="phoneNumber" onChange={onChangeSignUp} />
+                <label htmlFor="password" className="font-bold mt-2 mb-2">Password</label>
+                <input className="rounded outline-none p-2 bg-zinc-200 " type="password" placeholder="Enter password" name="password" id="password" onChange={onChangeSignUp} />
+                <label htmlFor="profile" className="font-bold mt-2 mb-2" >Profile</label>
+                <input className="rounded outline-none p-2 bg-zinc-200 " type="text" value={signUpFormData.profile} readOnly name="profile" id="profile" />
                 <input className="rounded  mt-4 outline  pt-2 pb-2 text-center font-bold hover:bg-zinc-900 hover:text-white   cursor-pointer" type="submit" value="signup" />
               </form>
               <p className="text-xs mt-5 ">already have an account ? <span className="cursor-pointer text-blue-600" onClick={() => setForm("login")}>log in here !</span></p>
             </div>}
         </div>}
-      
-      <Footer/>
+
+      <Footer />
 
 
 
