@@ -1,5 +1,5 @@
 import NavBar from "../navBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import {
   Dialog,
@@ -29,6 +29,7 @@ import axios from "axios"
 
 
 
+
 export default function User() {
   const [loggedin, setLoggedin] = useState(false);
   const [form, setForm] = useState("login");
@@ -39,7 +40,7 @@ export default function User() {
     password: "",
     profile: "customer"
   })
- const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState()
 
   const [logInData, setLogInData] = useState({
     email: "",
@@ -66,17 +67,19 @@ export default function User() {
     e.preventDefault()
     try {
       const res = await axios.post("http://localhost:3000/api/user/register", signUpFormData, {
-       headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       });
-  
+
       if (res.data.success) {
         toast.success(res.data.message);
         setForm("login")
-      } 
-    } catch(e) {
+      }
+
+      return
+    } catch (e) {
       return toast.error(e.response.data.message);
-  }
+    }
 
   }
 
@@ -85,21 +88,52 @@ export default function User() {
     e.preventDefault()
     try {
       const res = await axios.post("http://localhost:3000/api/user/login", logInData, {
-       headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       });
-  
+
       if (res.data.success) {
         toast.success(res.data.message);
         setUserData(res.data.user)
         setLoggedin(true);
-   
-      } 
-    } catch(e) {
+        return
+
+      }
+    } catch (e) {
       return toast.error(e.response.data.message);
-  }
+    }
 
   }
+
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      console.log(document.cookie);
+      
+      if (!document.cookie) {
+        setLoggedin(false);
+        return;
+      }
+  
+      try {
+        const res = await axios.get("http://localhost:3000/api/user/getUserDetails", {
+          headers: { 'Content-Type': 'application/json' }
+        });
+  
+        if (res.data.success) {
+          setUserData(res.data.user);
+          setLoggedin(true);
+        } else {
+          setLoggedin(false);
+        }
+      } catch (e) {
+        console.error("Error fetching user data:", e);
+        setLoggedin(false);
+      }
+    };
+  
+    fetchUserData();
+  },[]);
   return (
     <>
       <NavBar />

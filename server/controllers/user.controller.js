@@ -100,11 +100,13 @@ export const logIn = async (req, res) => {
       address: user.address,
     }
 
-    res.status(200).cookie("token", token,
+     return res.status(200).cookie("token", token,
       {
         maxAge: 1 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: 'none'
+        secure: false,
+        sameSite: 'lax',
+ 
       }
     ).json({
       message: "login successful",
@@ -131,7 +133,7 @@ export const getUserDetails = async (req,res) => {
       return res.status(404).json({ message: "User not found.", success: false });
     }
 
-    res.status(200).json(user);
+    return res.status(200).json(user);
   } catch (e) {
     res.status(500).json({
       message: "Internal server issue!",
