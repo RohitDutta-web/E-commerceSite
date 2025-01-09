@@ -9,6 +9,7 @@ import AllProducts from './components/pages/products';
 import ProductInfo from './components/pages/productInfo';
 import Cart from './components/pages/cart';
 import WishList from './components/pages/wishList';
+import AdminEntry from './components/pages/adminEntry';
 function App() {
 
 
@@ -21,7 +22,8 @@ function App() {
         <Route path="/allProducts" element={<AllProducts />} />
         <Route path="/:id" element={<ProductInfo />} />
         <Route path='/cart' element={<Cart />} />
-        <Route path='/wishList' element={ <WishList/>} />
+        <Route path='/wishList' element={<WishList />} />
+        <Route path='/adminEntry' element={ <AdminEntry/>} />
       </Routes>
 
     </BrowserRouter>
