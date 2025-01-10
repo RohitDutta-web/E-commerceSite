@@ -10,7 +10,11 @@ import ProductInfo from './components/pages/productInfo';
 import Cart from './components/pages/cart';
 import WishList from './components/pages/wishList';
 import AdminEntry from './components/pages/adminEntry';
+
+
 function App() {
+
+
 
 
   return (

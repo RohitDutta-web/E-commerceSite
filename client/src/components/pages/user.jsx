@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
+import { useNavigate } from "react-router-dom";
 
 
 import {
@@ -31,6 +32,7 @@ import axios from "axios"
 
 
 export default function User() {
+  const navigate = useNavigate()
   const [loggedin, setLoggedin] = useState(false);
   const [form, setForm] = useState("login");
   const [signUpFormData, setSignUpFormData] = useState({
@@ -96,6 +98,7 @@ export default function User() {
         toast.success(res.data.message);
         setUserData(res.data.user)
         setLoggedin(true);
+        navigate("/")
         return
 
       }
