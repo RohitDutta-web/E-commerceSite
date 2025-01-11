@@ -6,7 +6,7 @@ const router = express();
 
 router.post("/enlistAddress", authMiddleWare, enlistAddress);
 router.get("/getAddress", authMiddleWare, getAddress);
-router.put("/updateAddress", authMiddleWare, updateAddress);
+router.post("/updateAddress", authMiddleWare, updateAddress);
 
 export default router;
 

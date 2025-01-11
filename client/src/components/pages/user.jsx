@@ -38,6 +38,7 @@ import { setUser, setIsLoggedin, setAddress } from "../../../features/auth/authS
 
 
 export default function User() {
+  const navigate = useNavigate();
 
   const { user, isLoggedin, address } = useSelector(store => store.user)
 
@@ -53,6 +54,54 @@ export default function User() {
     profile: "customer"
   })
 
+  const [addressregisterForm, setAddressregisterForm] = useState({
+    street: "",
+    landMark: "",
+    city: "",
+    district: "",
+    state: "",
+    zipCode: "",
+    country: ""
+  })
+
+
+  const [addressUpdateForm, setAddressUpdateForm] = useState({
+    street: "",
+    landMark: "",
+    city: "",
+    district: "",
+    state: "",
+    zipCode: "",
+    country: ""
+  })
+
+
+  const addressUpdateFormChange = (e) => {
+    const { name, value } = e.target
+    setAddressUpdateForm({
+      ...addressUpdateForm,
+      [name]: value
+    })
+  }
+
+  const handleAddressUpdateForm = async () => {
+
+    try { 
+      const res = await axios.post("http://localhost:3000/api/address/updateAddress", addressUpdateForm, {
+        headers: { 'Content-Type': "application/json" },
+        withCredentials: true
+      })
+
+      if (res.data.success) {
+        toast.success(res.data.message)
+      }
+
+      return
+    } catch (e) {
+      return toast.error(e.response.data.message)
+    }
+  }
+
   const [logInData, setLogInData] = useState({
     email: "",
     password: ""
@@ -64,6 +113,37 @@ export default function User() {
       ...signUpFormData,
       [name]: value,
     })
+  }
+
+
+
+  
+
+  const onChangeAddressRegister = (e) => {
+    const { name, value } = e.target
+    setAddressregisterForm({
+      ...addressregisterForm,
+      [name]: value,
+
+    })
+  }
+
+  const handleAddressRegister = async() => { 
+    try {
+      const res = await axios.post("http://localhost:3000/api/address/enlistAddress", addressregisterForm, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      })
+
+      if (res.data.success) {
+        toast.success(res.data.message)
+        dispatch(setAddress(res.data))
+        return
+      }
+
+     } catch (e) {
+      toast.error(e.response.data.message)
+    }
   }
 
   const onChangeLogIn = (e) => {
@@ -156,7 +236,7 @@ export default function User() {
     if (user) {
       getAddress();
     }
-  }, []);
+  }, [user]);
 
 
   return (
@@ -212,28 +292,28 @@ export default function User() {
                     <DialogDescription>
                       Make changes to your address here. Click save when you're done.
 
-                      <form action="" className="flex flex-col mt-5 ">
-                        <label htmlFor="">Street</label>
+                      <form action="" className="flex flex-col mt-5 " onSubmit={handleAddressRegister}>
+                        <label htmlFor="street">Street</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
-                        <label htmlFor="">Land mark</label>
+  " type="text" name="street" id="" onChange={onChangeAddressRegister}/>
+                        <label htmlFor="landMark">Land mark</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
-                        <label htmlFor="">City</label>
+  " type="text" name="landMark" id="" onChange={onChangeAddressRegister} />
+                        <label htmlFor="city">City</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="password" name="" id="" />
-                        <label htmlFor="">District</label>
+  " type="text" name="city" id="" onChange={onChangeAddressRegister} />
+                        <label htmlFor="district">District</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
-                        <label htmlFor="">State</label>
+  " type="text" name="district" id="" onChange={onChangeAddressRegister} />
+                        <label htmlFor="state">State</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
-                        <label htmlFor="">Zip code</label>
+  " type="text" name="state" id="" onChange={onChangeAddressRegister}/>
+                        <label htmlFor="zipCode">Zip code</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="number" name="" id="" />
-                        <label htmlFor="">Country</label>
+  " type="number" name="zipCode" id="" onChange={onChangeAddressRegister} />
+                        <label htmlFor="country">Country</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
+  " type="text" name="country" id="" onChange={onChangeAddressRegister}/>
                         <input type="submit" value=" save changes " className="outline  w-1/2 mt-3 rounded pt-2 pb-2 text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 cursor-pointer" />
                       </form>
                     </DialogDescription>
@@ -248,28 +328,28 @@ export default function User() {
                     <DialogDescription>
                       Make changes to your address here. Click save when you're done.
 
-                      <form action="" className="flex flex-col mt-5 ">
+                      <form action="" className="flex flex-col mt-5 " onSubmit={handleAddressUpdateForm}>
                         <label htmlFor="">Street</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
+  " type="text" name="street" id="" onChange={addressUpdateFormChange} />
                         <label htmlFor="">Land mark</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
+  " type="text" name="landMark" id="" onChange={addressUpdateFormChange} />
                         <label htmlFor="">City</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="password" name="" id="" />
+  " type="text" name="city" id="" onChange={addressUpdateFormChange} />
                         <label htmlFor="">District</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
+  " type="text" name="district" id="" onChange={addressUpdateFormChange} />
                         <label htmlFor="">State</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
+  " type="text" name="state" id="" onChange={addressUpdateFormChange}/>
                         <label htmlFor="">Zip code</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="number" name="" id="" />
+  " type="number" name="zipCode" id="" onChange={addressUpdateFormChange}/>
                         <label htmlFor="">Country</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="" id="" />
+  " type="text" name="country" id="" onChange={addressUpdateFormChange}/>
                         <input type="submit" value=" save changes " className="outline  w-1/2 mt-3 rounded pt-2 pb-2 text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 cursor-pointer" />
                       </form>
                     </DialogDescription>
