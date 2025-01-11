@@ -29,7 +29,7 @@ import {
 import Footer from "../footer"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux";
-import { setUser,setIsLoggedin, setAddress } from "../../../features/auth/authSlice";
+import { setUser, setIsLoggedin, setAddress } from "../../../features/auth/authSlice";
 
 
 
@@ -39,11 +39,11 @@ import { setUser,setIsLoggedin, setAddress } from "../../../features/auth/authSl
 
 export default function User() {
 
-  const { user,isLoggedin,address } = useSelector(store => store.user)
-  
+  const { user, isLoggedin, address } = useSelector(store => store.user)
+
 
   const dispatch = useDispatch()
-  
+
   const [form, setForm] = useState("login");
   const [signUpFormData, setSignUpFormData] = useState({
     name: "",
@@ -94,7 +94,22 @@ export default function User() {
 
   }
 
+  const handleLogOut = async (e) => {
+    e.preventDefault()
 
+    try {
+      const res = await axios.get("http://localhost:3000/api/user/logout")
+
+      if (res.data.success) {
+        toast.success(res.data.message)
+        dispatch(setUser(null))
+        dispatch(setIsLoggedin(false));
+      }
+    } catch (error) {
+      return toast.error(error.response.data.message);
+
+    }
+  }
 
 
   const handleLogIn = async (e) => {
@@ -109,8 +124,8 @@ export default function User() {
         toast.success(res.data.message);
         dispatch(setUser(res.data.user))
         dispatch(setIsLoggedin(true));
-        
-        
+
+
         return
 
       }
@@ -127,7 +142,7 @@ export default function User() {
       const res = await axios.get("http://localhost:3000/api/address/getAddress", {
         withCredentials: true,
       });
-  
+
       if (res.data) {
         dispatch(setAddress(res.data));
         console.log(res.data);
@@ -136,12 +151,12 @@ export default function User() {
       console.log(e);
     }
   };
-  
+
   useEffect(() => {
     if (user) {
       getAddress();
     }
-  }, [user]);
+  }, []);
 
 
   return (
@@ -267,15 +282,15 @@ export default function User() {
               <label htmlFor="" className="mt-2 mb-1">Street</label>
               <input type="text" value={address?.street || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">Land mark</label>
-              <input type="text" value={address?.landMark || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.landMark || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">City</label>
-              <input type="text" value={address?.city || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.city || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">District</label>
-              <input type="text" value={address?.district || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.district || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">State</label>
-              <input type="text" value={address?.state || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.state || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">Zip code</label>
-              <input type={ address?.zipCode ? "number" : "text"} value={address?.zipCode || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type={address?.zipCode ? "number" : "text"} value={address?.zipCode || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">Country</label>
               <input type="text" value={address?.country || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
             </form>
@@ -291,7 +306,7 @@ export default function User() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={handleLogOut}>Continue</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
