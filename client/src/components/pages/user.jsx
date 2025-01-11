@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import { useNavigate } from "react-router-dom";
 
 
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,13 +28,22 @@ import {
 
 import Footer from "../footer"
 import axios from "axios"
+import { useDispatch, useSelector } from "react-redux";
+import { setUser,setIsLoggedin, setAddress } from "../../../features/auth/authSlice";
+
+
+
 
 
 
 
 export default function User() {
+
+  const { user,isLoggedin,address } = useSelector(store => store.user)
+  
   const navigate = useNavigate()
-  const [loggedin, setLoggedin] = useState(false);
+  const dispatch = useDispatch()
+  
   const [form, setForm] = useState("login");
   const [signUpFormData, setSignUpFormData] = useState({
     name: "",
@@ -42,7 +52,6 @@ export default function User() {
     password: "",
     profile: "customer"
   })
-  const [userData, setUserData] = useState()
 
   const [logInData, setLogInData] = useState({
     email: "",
@@ -86,6 +95,8 @@ export default function User() {
   }
 
 
+
+
   const handleLogIn = async (e) => {
     e.preventDefault()
     try {
@@ -96,9 +107,10 @@ export default function User() {
 
       if (res.data.success) {
         toast.success(res.data.message);
-        setUserData(res.data.user)
-        setLoggedin(true);
-        navigate("/")
+        dispatch(setUser(res.data.user))
+        dispatch(setIsLoggedin(true));
+        
+        
         return
 
       }
@@ -109,38 +121,33 @@ export default function User() {
   }
 
 
+
+  const getAddress = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/address/getAddress", {
+        withCredentials: true,
+      });
+  
+      if (res.data) {
+        dispatch(setAddress(res.data));
+        console.log(res.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  
   useEffect(() => {
-    const fetchUserData = async () => {
-      console.log(document.cookie);
-      
-      if (!document.cookie) {
-        setLoggedin(false);
-        return;
-      }
-  
-      try {
-        const res = await axios.get("http://localhost:3000/api/user/getUserDetails", {
-          headers: { 'Content-Type': 'application/json' }
-        });
-  
-        if (res.data.success) {
-          setUserData(res.data.user);
-          setLoggedin(true);
-        } else {
-          setLoggedin(false);
-        }
-      } catch (e) {
-        console.error("Error fetching user data:", e);
-        setLoggedin(false);
-      }
-    };
-  
-    fetchUserData();
-  },[]);
+    if (user) {
+      getAddress();
+    }
+  }, [user]);
+
+
   return (
     <>
       <NavBar />
-      {loggedin ?
+      {isLoggedin ?
         <div className="w-full max-w-screen flex flex-col items-center justify-center">
           <FaCircleUser className=" text-9xl bg-zinc-200 rounded-full text-zinc-300 " />
           <div className="shadow-[0_1px_6px_2px_rgba(0,0,0,0.35)] p-5 mt-5">
@@ -148,9 +155,9 @@ export default function User() {
 
             <form action="" className="flex flex-col">
               <label htmlFor="" className="mt-2 mb-1">Name</label>
-              <input type="text" value={userData.name} readOnly className="outline-none bg-zinc-200 p-2" />
+              <input type="text" value={user?.name} readOnly className="outline-none bg-zinc-200 p-2" />
               <label htmlFor="" className="mt-2 mb-1">Phone Number</label>
-              <input type="text" value={userData.phoneNumber} readOnly className="outline-none bg-zinc-200 p-2" />
+              <input type="text" value={user?.phoneNumber} readOnly className="outline-none bg-zinc-200 p-2" />
             </form>
 
             <Dialog>
@@ -182,6 +189,42 @@ export default function User() {
           <div className="max-w-screen w-full p-4 mt-10">
             <div className="w-full flex justify-between">
               <p className="text-xl font-bold">Address info</p>
+              <Dialog>
+                <DialogTrigger className=" outline  text-white rounded hover:text-zinc-900 hover:bg-white   bg-zinc-900 p-2">Register address info</DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>register your address info here</DialogTitle>
+                    <DialogDescription>
+                      Make changes to your address here. Click save when you're done.
+
+                      <form action="" className="flex flex-col mt-5 ">
+                        <label htmlFor="">Street</label>
+                        <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
+  " type="text" name="" id="" />
+                        <label htmlFor="">Land mark</label>
+                        <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
+  " type="text" name="" id="" />
+                        <label htmlFor="">City</label>
+                        <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
+  " type="password" name="" id="" />
+                        <label htmlFor="">District</label>
+                        <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
+  " type="text" name="" id="" />
+                        <label htmlFor="">State</label>
+                        <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
+  " type="text" name="" id="" />
+                        <label htmlFor="">Zip code</label>
+                        <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
+  " type="number" name="" id="" />
+                        <label htmlFor="">Country</label>
+                        <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
+  " type="text" name="" id="" />
+                        <input type="submit" value=" save changes " className="outline  w-1/2 mt-3 rounded pt-2 pb-2 text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 cursor-pointer" />
+                      </form>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
               <Dialog>
                 <DialogTrigger className=" outline  text-white rounded hover:text-zinc-900 hover:bg-white   bg-zinc-900 p-2">Update address info</DialogTrigger>
                 <DialogContent>
@@ -222,19 +265,19 @@ export default function User() {
             </div>
             <form action="" className="flex flex-col w-full ">
               <label htmlFor="" className="mt-2 mb-1">Street</label>
-              <input type="text" value="address" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.street || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">Land mark</label>
-              <input type="text" value="Some land mark" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.landMark || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">City</label>
-              <input type="text" value="Some city" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.city || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">District</label>
-              <input type="text" value="some district" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.district || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">State</label>
-              <input type="text" value="Some state" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.state || "please register address" } readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">Zip code</label>
-              <input type="number" value="99999" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type={ address?.zipCode ? "number" : "text"} value={address?.zipCode || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
               <label htmlFor="" className="mt-2 mb-1">Country</label>
-              <input type="text" value="some country" readOnly className="outline-none bg-zinc-100 p-2 " />
+              <input type="text" value={address?.country || "please register address"} readOnly className="outline-none bg-zinc-100 p-2 " />
             </form>
           </div>
 

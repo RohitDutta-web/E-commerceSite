@@ -12,25 +12,29 @@ import WishList from './components/pages/wishList';
 import AdminEntry from './components/pages/adminEntry';
 
 
+
+
 function App() {
 
 
 
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/allProducts" element={<AllProducts />} />
-        <Route path="/:id" element={<ProductInfo />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/wishList' element={<WishList />} />
-        <Route path='/adminEntry' element={ <AdminEntry/>} />
-      </Routes>
+  
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/allProducts" element={<AllProducts />} />
+          <Route path="/:id" element={<ProductInfo />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/wishList' element={<WishList />} />
+          <Route path='/adminEntry' element={<AdminEntry />} />
+        </Routes>
 
-    </BrowserRouter>
+      </BrowserRouter>
+    
   )
 }
 
