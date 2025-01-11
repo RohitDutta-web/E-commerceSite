@@ -41,7 +41,7 @@ export default function User() {
 
   const { user,isLoggedin,address } = useSelector(store => store.user)
   
-  const navigate = useNavigate()
+
   const dispatch = useDispatch()
   
   const [form, setForm] = useState("login");

@@ -34,6 +34,7 @@
     "react-multi-carousel": "^2.8.5",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.1",
+    "redux-persist": "^6.0.0",
     "sonner": "^1.7.1",
     "styled-components": "^6.1.13",
     "tailwind-merge": "^2.6.0",
