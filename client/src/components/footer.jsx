@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 export default function Footer() {
+    const {user, isLoggedin} = useSelector(store => store.user)
     return (
         <>
 
@@ -32,14 +34,14 @@ export default function Footer() {
                             ="px-5 py-2">
                             <p className
                                 ="text-base leading-6 text-gray-500 hover:text-gray-900">
-                                <Link to="/business">Seller account</Link>
+                                <Link to={(user && isLoggedin) ? "/restricted" : "/business"}>Seller account</Link>
                             </p>
                         </div>
                         <div className
                             ="px-5 py-2">
                             <p className
                                 ="text-base leading-6 text-gray-500 hover:text-gray-900">
-                                <Link to="/adminEntry">
+                                <Link to={(user && isLoggedin) ? "/restricted" : "/adminEntry"}>
                                 Admin login
                                </Link>
                             </p>

@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
-
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -38,6 +38,8 @@ import { setUser, setIsLoggedin, setAddress } from "../../../features/auth/authS
 
 
 export default function User() {
+
+  const navigate = useNavigate();
 
 
   const { user, isLoggedin, address } = useSelector(store => store.user)
@@ -78,12 +80,13 @@ export default function User() {
         },
         withCredentials: true
       })
-      console.log(res);
+     
       
 
       if (res.data.success) {
         toast.success(res.data.message)
         dispatch(setUser(res.data.user))
+        navigate("/user")
       }
      } catch (e) {
       return toast.error(e.response.data.message)
@@ -133,6 +136,7 @@ export default function User() {
 
       if (res.data.success) {
         toast.success("Address updated successfully")
+        navigate("/user")
       }
 
       return
@@ -178,6 +182,7 @@ export default function User() {
       if (res.data.success) {
         toast.success("Address registered successfully")
         dispatch(setAddress(res.data))
+        navigate("/user")
         return
       }
 
@@ -224,6 +229,7 @@ export default function User() {
         toast.success(res.data.message)
         dispatch(setUser(null))
         dispatch(setIsLoggedin(false));
+        navigate("/")
       }
     } catch (error) {
       return toast.error(error.response.data.message);
@@ -244,6 +250,7 @@ export default function User() {
         toast.success(res.data.message);
         dispatch(setUser(res.data.user))
         dispatch(setIsLoggedin(true));
+        navigate("/user")
 
 
         return
