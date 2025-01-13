@@ -22,7 +22,7 @@ const corsOptions = {
 const app = express();
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(morgan(':method :url :status :response-time ms'));
 app.use(helmet());
 app.use(cookieParser());
 

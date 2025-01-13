@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
-import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -38,7 +38,7 @@ import { setUser, setIsLoggedin, setAddress } from "../../../features/auth/authS
 
 
 export default function User() {
-  const navigate = useNavigate();
+
 
   const { user, isLoggedin, address } = useSelector(store => store.user)
 
@@ -53,6 +53,42 @@ export default function User() {
     password: "",
     profile: "customer"
   })
+
+  const [userUpdateForm, setUserUpdateForm] = useState({
+    name: "",
+    phoneNumber: "",
+    password: ""
+
+  })
+
+  const handleUserUpdateFormChange = (e) => {
+    const { name, value } = e.target
+    setUserUpdateForm({
+      ...userUpdateForm,
+      [name]: value
+    })
+  }
+
+  const handleUserUpdate = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.patch("http://localhost:3000/api/user/profile/update", userUpdateForm, {
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        withCredentials: true
+      })
+      console.log(res);
+      
+
+      if (res.data.success) {
+        toast.success(res.data.message)
+        dispatch(setUser(res.data.user))
+      }
+     } catch (e) {
+      return toast.error(e.response.data.message)
+    }
+  }
 
   const [addressregisterForm, setAddressregisterForm] = useState({
     street: "",
@@ -84,16 +120,19 @@ export default function User() {
     })
   }
 
-  const handleAddressUpdateForm = async () => {
+  const handleAddressUpdateForm = async (e) => {
+    e.preventDefault()
 
-    try { 
-      const res = await axios.post("http://localhost:3000/api/address/updateAddress", addressUpdateForm, {
+    try {
+      const res = await axios.patch("http://localhost:3000/api/address/updateAddress", addressUpdateForm, {
         headers: { 'Content-Type': "application/json" },
         withCredentials: true
       })
+      console.log(res);
+      
 
       if (res.data.success) {
-        toast.success(res.data.message)
+        toast.success("Address updated successfully")
       }
 
       return
@@ -117,7 +156,7 @@ export default function User() {
 
 
 
-  
+
 
   const onChangeAddressRegister = (e) => {
     const { name, value } = e.target
@@ -128,7 +167,8 @@ export default function User() {
     })
   }
 
-  const handleAddressRegister = async() => { 
+  const handleAddressRegister = async (e) => {
+    e.preventDefault();
     try {
       const res = await axios.post("http://localhost:3000/api/address/enlistAddress", addressregisterForm, {
         headers: { 'Content-Type': 'application/json' },
@@ -136,12 +176,12 @@ export default function User() {
       })
 
       if (res.data.success) {
-        toast.success(res.data.message)
+        toast.success("Address registered successfully")
         dispatch(setAddress(res.data))
         return
       }
 
-     } catch (e) {
+    } catch (e) {
       toast.error(e.response.data.message)
     }
   }
@@ -225,7 +265,7 @@ export default function User() {
 
       if (res.data) {
         dispatch(setAddress(res.data));
-        console.log(res.data);
+        
       }
     } catch (e) {
       console.log(e);
@@ -236,7 +276,7 @@ export default function User() {
     if (user) {
       getAddress();
     }
-  }, [user]);
+  }, []);
 
 
   return (
@@ -263,16 +303,16 @@ export default function User() {
                   <DialogDescription>
                     Make changes to your profile here. Click save when you're done.
 
-                    <form action="" className="flex flex-col mt-5 ">
-                      <label htmlFor="">Name</label>
+                    <form action="" className="flex flex-col mt-5 " onSubmit={handleUserUpdate}>
+                      <label htmlFor="name">Name</label>
                       <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-                      " type="text" name="" id="" />
-                      <label htmlFor="">Phone Number</label>
+                      " type="text" name="name" id="" onChange={handleUserUpdateFormChange} />
+                      <label htmlFor="phoneNumber">Phone Number</label>
                       <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-                      " type="text" name="" id="" />
-                      <label htmlFor="">Password</label>
+                      " type="text" name="phoneNumber" id="" onChange={handleUserUpdateFormChange}/>
+                      <label htmlFor="password">Password</label>
                       <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-                      " type="password" name="" id="" />
+                      " type="password" name="password" id="" onChange={handleUserUpdateFormChange}/>
                       <input type="submit" value=" save changes " className="outline  w-1/2 mt-3 rounded pt-2 pb-2 text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 cursor-pointer" />
                     </form>
                   </DialogDescription>
@@ -295,7 +335,7 @@ export default function User() {
                       <form action="" className="flex flex-col mt-5 " onSubmit={handleAddressRegister}>
                         <label htmlFor="street">Street</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="street" id="" onChange={onChangeAddressRegister}/>
+  " type="text" name="street" id="" onChange={onChangeAddressRegister} />
                         <label htmlFor="landMark">Land mark</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
   " type="text" name="landMark" id="" onChange={onChangeAddressRegister} />
@@ -307,13 +347,13 @@ export default function User() {
   " type="text" name="district" id="" onChange={onChangeAddressRegister} />
                         <label htmlFor="state">State</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="state" id="" onChange={onChangeAddressRegister}/>
+  " type="text" name="state" id="" onChange={onChangeAddressRegister} />
                         <label htmlFor="zipCode">Zip code</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
   " type="number" name="zipCode" id="" onChange={onChangeAddressRegister} />
                         <label htmlFor="country">Country</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="country" id="" onChange={onChangeAddressRegister}/>
+  " type="text" name="country" id="" onChange={onChangeAddressRegister} />
                         <input type="submit" value=" save changes " className="outline  w-1/2 mt-3 rounded pt-2 pb-2 text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 cursor-pointer" />
                       </form>
                     </DialogDescription>
@@ -343,13 +383,13 @@ export default function User() {
   " type="text" name="district" id="" onChange={addressUpdateFormChange} />
                         <label htmlFor="">State</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="state" id="" onChange={addressUpdateFormChange}/>
+  " type="text" name="state" id="" onChange={addressUpdateFormChange} />
                         <label htmlFor="">Zip code</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="number" name="zipCode" id="" onChange={addressUpdateFormChange}/>
+  " type="number" name="zipCode" id="" onChange={addressUpdateFormChange} />
                         <label htmlFor="">Country</label>
                         <input className="p-2 w-4/5 mt-2 outline mb-2 rounded
-  " type="text" name="country" id="" onChange={addressUpdateFormChange}/>
+  " type="text" name="country" id="" onChange={addressUpdateFormChange} />
                         <input type="submit" value=" save changes " className="outline  w-1/2 mt-3 rounded pt-2 pb-2 text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 cursor-pointer" />
                       </form>
                     </DialogDescription>

@@ -168,7 +168,8 @@ export const updateUser = async (req, res) => {
     await user.save();
     return res.status(200).json({
       message: "Update complete",
-      success: true
+      success: true,
+      user
    })
 
   } catch (e) {
