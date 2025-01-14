@@ -24,14 +24,9 @@ const userSchema = new mongoose.Schema({
   },
   profile: {
     type: String,
-    enum: ["customer", "merchant", "admin"],
     required: true,
-
+    default: "customer"
   },
-  products: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-  }],
   wishList: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product"
@@ -40,13 +35,13 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product"
   }],
-  soldItems: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product"
-  }],
   cart:[{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product"
+  }],
+  orders: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Order"
   }]
 }, { timestamps: true })
 
