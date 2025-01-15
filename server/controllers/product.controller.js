@@ -1,4 +1,5 @@
 import Product from "../models/product.model.js";
+import Seller from "../models/seller.model.js";
 import User from "../models/user.model.js";
 
 export const registerProduct = async (req, res) => {
@@ -11,10 +12,10 @@ export const registerProduct = async (req, res) => {
       })
     }
 
-    const userId = req.user.id;
-    const user = await User.findById(userId);
+    const sellerId = req.seller.id;
+    const seller = await Seller.findById(sellerId);
 
-    if (!user) {
+    if (!seller) {
       return res.status(400).json({
         message: "Please login first",
         success: false
@@ -27,14 +28,14 @@ export const registerProduct = async (req, res) => {
       price,
       brand,
       category,
-      enlistedBy: userId,
+      enlistedBy: sellerId,
       stock
     })
 
     await product.save()
-    user.products.push(product._id)
+    seller.listedItems.push(product._id)
 
-    await user.save();
+    await seller.save();
 
     return res.status(200).json({
       message: "Product registered successfully!",
@@ -101,7 +102,7 @@ export const deleteProduct = async (req, res) => {
 
     return res.status(200).json({
       message: "Product removed",
-      success: false
+      success: true
     })
   } catch (e) {
     return res.status(500).json({
@@ -232,4 +233,6 @@ export const addToWishList = async (req, res) => {
     })
   }
 }
+
+
 

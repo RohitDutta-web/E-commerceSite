@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import addressRouter from "./routes/address.routes.js";
 import productRouter from "./routes/products.routes.js";
 import EventEmitter from "events";
+import sellerRouter from "./routes/seller.routes.js";
 
 dotenv.config({})
 const emitter = new EventEmitter();
@@ -37,6 +38,7 @@ app.use((err, req, res, next) => {
 app.use("/api/user", userRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/product", productRouter);
+app.use("/api/seller", sellerRouter);
 
 const port = process.env.PORT ;
 app.listen(port, () => {

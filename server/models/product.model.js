@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema({
   ,
   enlistedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:"User"
+    ref:"Seller"
   },
   stock: {
     type: Number,

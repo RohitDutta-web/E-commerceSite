@@ -21,12 +21,6 @@ import RestirctedAnnouncepage from './components/pages/restirctedAnnouncepage';
 function App() {
 
 
- 
-  
-  
-
-
-
 
   return (
   
