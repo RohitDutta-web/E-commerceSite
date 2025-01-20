@@ -4,6 +4,7 @@ const adminSchema = new mongoose.Schema({
   companyId: {
     type: String,
     required: true,
+    unique: true,
   },
   email: {
     type: String,

@@ -10,6 +10,7 @@ import addressRouter from "./routes/address.routes.js";
 import productRouter from "./routes/products.routes.js";
 import EventEmitter from "events";
 import sellerRouter from "./routes/seller.routes.js";
+import adminRouter from "./routes/admin.routes.js";
 
 dotenv.config({})
 const emitter = new EventEmitter();
@@ -39,6 +40,7 @@ app.use("/api/user", userRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/product", productRouter);
 app.use("/api/seller", sellerRouter);
+app.use("/api/admin", adminRouter);
 
 const port = process.env.PORT ;
 app.listen(port, () => {

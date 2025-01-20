@@ -75,6 +75,8 @@ export const logInSeller = async (req, res) => { //seller login
       })
     }
 
+
+
     const comparePassword = await bcrypt.compare(password, seller.password)
     if (!comparePassword) return res.status(400).json({
       message: "Invalid credentials",
