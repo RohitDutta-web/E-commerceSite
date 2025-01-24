@@ -13,7 +13,7 @@ import WishList from './components/pages/wishList';
 import AdminEntry from './components/pages/adminEntry';
 import RestirctedAnnouncepage from './components/pages/restirctedAnnouncepage';
 import SellerEntry from './components/pages/sellerEntry';
-
+import SellerPage from './components/pages/sellerPage';
 
 
 
@@ -37,6 +37,7 @@ function App() {
         <Route path='/adminEntry' element={<AdminEntry />} />
         <Route path='/restricted' element={<RestirctedAnnouncepage />} />
         <Route path='/businessEntry' element={<SellerEntry />} />
+        <Route path='/seller/:id' element={<SellerPage />} />
         </Routes>
 
       </BrowserRouter>
