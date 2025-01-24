@@ -4,7 +4,7 @@ import User from "../models/user.model.js";
 
 export const registerProduct = async (req, res) => {
   try {
-    const { title, description, price, brand, category, stock, } = req.body;
+    const { title, description, price, brand, category, stock } = req.body;
     if (!title || !description || !price || !brand || !category || !stock) {
       return res.status(400).json({
         message: "Missing product details",

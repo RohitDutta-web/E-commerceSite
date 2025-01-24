@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
     min: 0
   },
@@ -24,25 +24,25 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["phone", "desktop accessories" , "laptop" , "smart watch" , "camera" , "PC" , "headphones", "others"],
+    enum: ["phone", "desktop accessories", "laptop", "smart watch", "camera", "desktop", "headphones", "gaming", "others"],
     required: true,
   }
   ,
   enlistedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:"Seller"
+    ref: "Seller"
   },
   stock: {
     type: Number,
     required: true
   },
   ratings: {
-  average: {
-    type: Number,
-    min: [0, "Rating cannot be below 0"],
-    max: [5, "Rating cannot exceed 5"],
-    default: 0,
-  }
+    average: {
+      type: Number,
+      min: [0, "Rating cannot be below 0"],
+      max: [5, "Rating cannot exceed 5"],
+      default: 0,
+    }
   },
   sold: {
     type: Number

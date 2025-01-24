@@ -1,16 +1,18 @@
-
+import ProductListingForm from "../productListingForm";
 import { FaPlus } from "react-icons/fa";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { useState } from "react";
 export default function SellerPage() {
+  const [listingForm, setListingForm] = useState(false);
   return (
     <>
       <p className="w-full max-w-screen text-center font-bold text-4xl mt-2 mb-10">ESSCOM</p>
-      <div className="w-full max-w-screen flex justify-between p-5 items-center">
+      <div className="w-full max-w-screen flex justify-between p-5 items-center" >
         <p className="text-2xl">Seller name</p>
         <div className="flex gap-5 items-center">
           <p className=" hover:text-blue-400 cursor-pointer">Listed items</p>
           <p className=" hover:text-blue-400 cursor-pointer">sold items</p>
-          <p className="flex items-center border-2 rounded p-2 gap-2 text-zinc-500 hover:text-zinc-700 border-zinc-400 hover:border-zinc-700 cursor-pointer"><FaPlus /> New listing</p>
+          <p className="flex items-center border-2 rounded p-2 gap-2 text-zinc-500 hover:text-zinc-700 border-zinc-400 hover:border-zinc-700 cursor-pointer" onClick={()=>setListingForm(true)}><FaPlus /> New listing</p>
         </div>
       </div>
 
@@ -33,6 +35,10 @@ export default function SellerPage() {
 
         </div>
       </div>
+
+      {
+        listingForm ? <ProductListingForm close={()=> setListingForm(false) } /> : null
+      }
 
     </>
   )
