@@ -12,6 +12,7 @@ import Cart from './components/pages/cart';
 import WishList from './components/pages/wishList';
 import AdminEntry from './components/pages/adminEntry';
 import RestirctedAnnouncepage from './components/pages/restirctedAnnouncepage';
+import SellerEntry from './components/pages/sellerEntry';
 
 
 
@@ -35,6 +36,7 @@ function App() {
           <Route path='/wishList' element={<WishList />} />
         <Route path='/adminEntry' element={<AdminEntry />} />
         <Route path='/restricted' element={<RestirctedAnnouncepage />} />
+        <Route path='/businessEntry' element={<SellerEntry />} />
         </Routes>
 
       </BrowserRouter>

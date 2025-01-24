@@ -34,7 +34,7 @@ export default function Footer() {
                             ="px-5 py-2">
                             <p className
                                 ="text-base leading-6 text-gray-500 hover:text-gray-900">
-                                <Link to={(user && isLoggedin) ? "/restricted" : "/business"}>Seller account</Link>
+                                <Link to={(user && isLoggedin) ? "/restricted" : "/businessEntry"}>Seller account</Link>
                             </p>
                         </div>
                         <div className
