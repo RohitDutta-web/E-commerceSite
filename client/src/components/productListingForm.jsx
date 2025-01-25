@@ -3,7 +3,7 @@
 export default function ProductListingForm({ close }) {
   return (
     <>
-      <div className=" border-2 w-96 absolute top-[30%] z-40 left-[30%] shadow-2xl p-5">
+      <div className=" border-2 w-96 fixed  top-[10%] z-40 left-[40%] shadow-2xl p-5">
         <p className="w-full text-end  font-bold mb-5" ><span className="cursor-pointer" onClick={() => close()}>Close</span></p>
         <form className="w-full flex flex-col items-center  rounded-xl">
           <input type="text" className="w-full border-2 m-2  rounded-full p-3 outline-none text-zinc-400 " placeholder="title" />

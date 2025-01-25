@@ -14,6 +14,7 @@ import AdminEntry from './components/pages/adminEntry';
 import RestirctedAnnouncepage from './components/pages/restirctedAnnouncepage';
 import SellerEntry from './components/pages/sellerEntry';
 import SellerPage from './components/pages/sellerPage';
+import OrderPage from './components/pages/orderPage';
 
 
 
@@ -38,6 +39,7 @@ function App() {
         <Route path='/restricted' element={<RestirctedAnnouncepage />} />
         <Route path='/businessEntry' element={<SellerEntry />} />
         <Route path='/seller/:id' element={<SellerPage />} />
+        <Route path='/order/:id' element={<OrderPage />} />
         </Routes>
 
       </BrowserRouter>
