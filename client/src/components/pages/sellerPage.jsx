@@ -2,7 +2,7 @@ import ProductListingForm from "../productListingForm";
 import { FaPlus } from "react-icons/fa";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 
@@ -14,14 +14,46 @@ export default function SellerPage() {
     piece: 2,
     price: 50000,
     orderedBy: "Rohit Dutta",
-    expectedDelivery: "7 days"
+    expectedDelivery: "7 days",
+    address: {
+      street:
+        "West Chayanpara, Ghogomali Main rd",
+      landMark:
+        "Nagaland building",
+      city:
+        "Siliguri",
+      district:
+        "Darjeeling",
+      state:
+        "West Bengal",
+      zipCode:
+        734006,
+      country:
+        "India"
+    }
   }, {
     title: "Order2",
     id: "poiuyt",
     piece: 5,
     price: 5400,
     orderedBy: "Rohit ",
-    expectedDelivery: "2 days"
+    expectedDelivery: "2 days",
+    address: {
+      street:
+        "West Chayanpara, Ghogomali Main rd",
+      landMark:
+        "Nagaland building",
+      city:
+        "Siliguri",
+      district:
+        "Darjeeling",
+      state:
+        "West Bengal",
+      zipCode:
+        734006,
+      country:
+        "India"
+    }
   }]
 
 
@@ -44,7 +76,7 @@ export default function SellerPage() {
             orderData.map((data) => (
               <div className="border-2 m-2 p-2 flex items-center justify-between" key={data.id}>
                 <p className="overflow-hidden max-w-96">{data.title}</p>
-                <Link to={`/order/${data.id}` } state={data}>
+                <Link to={`/order/${data.id}`} state={data}>
                   <FaExternalLinkAlt className="hover:text-blue-500 cursor-pointer" />
                 </Link>
               </div>
