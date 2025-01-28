@@ -3,11 +3,42 @@ import { FaPlus } from "react-icons/fa";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { LuCircleUser } from "react-icons/lu";
+import axios from "axios";
+import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setSeller, setSellerLoggedIn } from "../../../features/auth/seller.slice";
+import { useNavigate } from "react-router-dom";
 
 
 export default function SellerPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [listingForm, setListingForm] = useState(false);
+
+  const handleLogOut = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/seller/logOut", {
+        withCredentials: true
+      });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        dispatch(setSeller(null));
+        dispatch(setSellerLoggedIn(false));
+        navigate('/')
+        return
+
+      }
+    }
+    catch (e) {
+      return toast.error(e.response.data.message);
+    }
+  }
   const orderData = [{
     title: "Order1",
     id: "qwertyu",
@@ -92,6 +123,18 @@ export default function SellerPage() {
       {
         listingForm ? <ProductListingForm close={() => setListingForm(false)} /> : null
       }
+
+      <div className="absolute top-5 right-5">
+        <Popover>
+          <PopoverTrigger><LuCircleUser className="text-5xl" /></PopoverTrigger>
+          <PopoverContent className="shadow-xl border-zinc-400" >
+            <div className="w-full flex justify-around">
+              <button className="bg-zinc-900 text-white p-3 rounded font-bold ">Update info</button>
+              <button className="bg-zinc-900 text-white p-3 rounded font-bold " onClick={handleLogOut}>Log out</button>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
 
     </>
   )

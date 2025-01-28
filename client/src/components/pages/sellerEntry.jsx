@@ -1,8 +1,56 @@
-import { useState } from "react"
-
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { toast } from "sonner"
+import { useDispatch } from "react-redux"
+import { setSeller, setSellerLoggedIn } from "../../../features/auth/seller.slice"
+import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 export default function SellerEntry() {
-  const [formType, setFromType] = useState("logIn")
 
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  
+  const { seller, sellerLoggedIn } = useSelector(store => store.seller)
+  const [formType, setFromType] = useState("logIn")
+  const [logInData, setLogInData] = useState({})
+
+  const handleLogInData = (e) => {
+    const { name, value } = e.target
+    setLogInData({
+      ...logInData,
+      [name]: value
+
+    })
+  }
+
+  const handleLogIn = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.post("http://localhost:3000/api/seller/logIn", logInData,  {
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        withCredentials: true
+      })
+
+      if (res.data.success) {
+        dispatch(setSeller(res.data.seller))
+        dispatch(setSellerLoggedIn(res.data.success))
+        toast.success(res.data.message)
+        navigate(`/seller/${seller?._id}`)
+
+      }
+    } catch (e) {
+      return toast.error(e.response.data.message)
+    }
+  }
+
+
+  const checkSellerLogIn =  () => {
+    if(sellerLoggedIn) navigate(`/seller/${seller?._id}`)
+  }
+  
+  useEffect(() => {checkSellerLogIn()},[])
 
   return (
     <>
@@ -11,8 +59,9 @@ export default function SellerEntry() {
         formType === "logIn" ? (<div className="max-w-sm mx-auto bg-gradient-to-b from-white to-gray-100 rounded-3xl p-6 border-4 border-white shadow-lg mt-10">
           <h1 className="text-center font-bold text-2xl text-blue-600">Log In</h1>
 
-          <form className="mt-5">
+          <form className="mt-5" onSubmit={handleLogIn}>
             <input
+              onChange={handleLogInData}
               required
               type="email"
               name="email"
@@ -22,6 +71,7 @@ export default function SellerEntry() {
             />
 
             <input
+              onChange={handleLogInData}
               required
               type="password"
               name="password"

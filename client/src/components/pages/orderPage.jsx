@@ -51,8 +51,7 @@ export default function OrderPage() {
       </div>
 
       <div>
-        <form action="
-        ">
+        <form action="">
           <label htmlFor="">Update order status</label>
           <select name="" id="">
             <option value=""></option>
