@@ -15,6 +15,7 @@ import RestirctedAnnouncepage from './components/pages/restirctedAnnouncepage';
 import SellerEntry from './components/pages/sellerEntry';
 import SellerPage from './components/pages/sellerPage';
 import OrderPage from './components/pages/orderPage';
+import SellerUpdateForum from './components/pages/sellerUpdateForum';
 
 
 
@@ -40,6 +41,7 @@ function App() {
         <Route path='/businessEntry' element={<SellerEntry />} />
         <Route path='/seller/:id' element={<SellerPage />} />
         <Route path='/order/:id' element={<OrderPage />} />
+        <Route path='/seller/updateInfo' element={<SellerUpdateForum />} />
         </Routes>
 
       </BrowserRouter>

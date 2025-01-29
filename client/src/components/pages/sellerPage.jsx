@@ -14,9 +14,12 @@ import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setSeller, setSellerLoggedIn } from "../../../features/auth/seller.slice";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 export default function SellerPage() {
+
+  const { seller } = useSelector((store) => store.seller);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [listingForm, setListingForm] = useState(false);
@@ -92,7 +95,7 @@ export default function SellerPage() {
     <>
       <p className="w-full max-w-screen text-center font-bold text-4xl mt-2 mb-10">ESSCOM</p>
       <div className="w-full max-w-screen flex justify-between p-5 items-center" >
-        <p className="text-2xl">Seller name</p>
+        <p className="text-2xl">{seller?.name }</p>
         <div className="flex gap-5 items-center">
           <p className=" hover:text-blue-400 cursor-pointer">Listed items</p>
           <p className=" hover:text-blue-400 cursor-pointer">sold items</p>
@@ -129,7 +132,7 @@ export default function SellerPage() {
           <PopoverTrigger><LuCircleUser className="text-5xl" /></PopoverTrigger>
           <PopoverContent className="shadow-xl border-zinc-400" >
             <div className="w-full flex justify-around">
-              <button className="bg-zinc-900 text-white p-3 rounded font-bold ">Update info</button>
+              <button className="bg-zinc-900 text-white p-3 rounded font-bold " onClick={() => navigate("/seller/updateInfo")}>Update info</button>
               <button className="bg-zinc-900 text-white p-3 rounded font-bold " onClick={handleLogOut}>Log out</button>
             </div>
           </PopoverContent>
