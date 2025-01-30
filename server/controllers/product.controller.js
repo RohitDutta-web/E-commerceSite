@@ -242,4 +242,68 @@ export const addToWishList = async (req, res) => {
 }
 
 
+export const removerFromWishList = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid user",
+        success: false
+      })
+    }
+    let wishList = user.wishList;
+    wishList = wishList.filter(item => item.toString() !== productId);
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Product removed from wishlist",
+      success: true,
+      wishList: wishList
+    });
+
+  } catch (e) {
+    return res.status(500).json({
+      message: " server issue",
+      success: false
+
+    })
+  }
+}
+
+
+
+export const removeFromCart = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid user",
+        success: false
+      })
+    }
+    let cart = user.cart;
+    cart = cart.filter(item => item.toString() !== productId);
+
+    await user.save();
+
+    return res.status(200).json({
+      message: "Product removed from cart",
+      success: true,
+      cart: cart
+    });
+
+  } catch (e) {
+    return res.status(500).json({
+      message: " server issue",
+      success: false
+
+    })
+  }
+}
+
 
