@@ -8,8 +8,7 @@ const orderSchema = new mongoose.Schema({
   },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
+    ref: "User"
   },
   seller: {
     type: mongoose.Schema.Types.ObjectId,
@@ -19,11 +18,9 @@ const orderSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["placed", "warehouse", "out_for_delivery", "delivered", "cancelled", "delayed", "arriving early"],
-    required: true,
   },
   paymentReceipt: {
     type: String,
-    required: true,
     unique: true,
   }
 }, { timestamps: true })

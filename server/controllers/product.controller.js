@@ -170,6 +170,13 @@ export const addToCart = async (req, res) => {
         success: false
       })
     }
+
+    if (product.stock < 1) {
+      return res.status(400).json({
+        message: "Out of stock",
+        success: false
+      })
+    }
     const userid = req.user.id;
     const user = await User.findById(userid);
     if (!user) {
