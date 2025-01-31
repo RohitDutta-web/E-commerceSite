@@ -1,5 +1,6 @@
 import Home from './components/pages/home';
 import './App.css'
+import ListedItems from './components/pages/listedItems';
 
 import {
   BrowserRouter, Routes, Route,
@@ -21,31 +22,33 @@ import SellerUpdateForum from './components/pages/sellerUpdateForum';
 
 
 
+
 function App() {
 
 
 
   return (
-  
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/allProducts" element={<AllProducts />} />
-          <Route path="/:id" element={<ProductInfo />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/wishList' element={<WishList />} />
+
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/user" element={<User />} />
+        <Route path="/allProducts" element={<AllProducts />} />
+        <Route path="/:id" element={<ProductInfo />} />
+        <Route path='/cart' element={<Cart />} />
+        <Route path='/wishList' element={<WishList />} />
         <Route path='/adminEntry' element={<AdminEntry />} />
         <Route path='/restricted' element={<RestirctedAnnouncepage />} />
         <Route path='/businessEntry' element={<SellerEntry />} />
         <Route path='/seller/:id' element={<SellerPage />} />
         <Route path='/order/:id' element={<OrderPage />} />
         <Route path='/seller/updateInfo' element={<SellerUpdateForum />} />
-        </Routes>
+        <Route path="/seller/listedItems" element={<ListedItems />} />
+      </Routes>
 
-      </BrowserRouter>
-    
+    </BrowserRouter>
+
   )
 }
 

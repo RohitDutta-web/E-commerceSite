@@ -97,7 +97,7 @@ export default function SellerPage() {
       <div className="w-full max-w-screen flex justify-between p-5 items-center" >
         <p className="text-2xl">{seller?.name }</p>
         <div className="flex gap-5 items-center">
-          <p className=" hover:text-blue-400 cursor-pointer">Listed items</p>
+          <Link to="/seller/listedItems"><p className=" hover:text-blue-400 cursor-pointer">Listed items</p></Link>
           <p className=" hover:text-blue-400 cursor-pointer">sold items</p>
           <p className="flex items-center border-2 rounded p-2 gap-2 text-zinc-500 hover:text-zinc-700 border-zinc-400 hover:border-zinc-700 cursor-pointer" onClick={() => setListingForm(true)}><FaPlus /> New listing</p>
         </div>
