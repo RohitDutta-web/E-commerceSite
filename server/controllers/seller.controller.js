@@ -29,7 +29,7 @@ export const registerSeller = async (req, res) => { //registering seller
       name,
       storeName,
       phoneNumber,
-      password : hashedPassword,
+      password: hashedPassword,
       email,
       area,
       city,
@@ -42,11 +42,11 @@ export const registerSeller = async (req, res) => { //registering seller
 
     return res.status(200).json({
       message: "Seller account created",
-      success : true
+      success: true
     })
 
 
-   } catch (err) {
+  } catch (err) {
     return res.status(500).json({
       message: "Internal server issue",
       success: false
@@ -84,10 +84,10 @@ export const logInSeller = async (req, res) => { //seller login
     })
 
     const tokenData = {
-      id:seller._id
+      id: seller._id
     }
 
-    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {expiresIn: "1d"})
+    const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" })
 
     seller = {
       _id: seller._id,
@@ -103,7 +103,7 @@ export const logInSeller = async (req, res) => { //seller login
       profile: seller.profile
     }
 
-    return res.status(200).cookie("token", token,   {
+    return res.status(200).cookie("token", token, {
       maxAge: 1 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       secure: false,
@@ -111,12 +111,12 @@ export const logInSeller = async (req, res) => { //seller login
 
     }).json({
       message: "login successful",
-      token, 
+      token,
       seller,
       success: true
     })
 
-   } catch (e) {
+  } catch (e) {
     return res.status(500).json({
       message: "internal server issue",
       success: false
@@ -132,31 +132,31 @@ export const updateSeller = async (req, res) => {
 
     const seller = await Seller.findById(req.seller.id)
 
-    
+
     if (!seller) {
       return res.status(400).json({
         message: "Invalid seller info",
-        success : false
+        success: false
       })
     }
 
-    
+
 
     const salt = await bcrypt.genSalt(10);
 
     const hashedPassword = await bcrypt.hash(password, salt)
- 
 
-    seller.name = name 
+
+    seller.name = name
     seller.phoneNumber = phoneNumber
-    seller.storeName = storeName 
-    seller.password = hashedPassword 
-    seller.email = email 
-    seller.area = area 
-    seller.city = city 
-    seller.state = state 
-    seller.zipCode = zipCode 
-    seller.country = country 
+    seller.storeName = storeName
+    seller.password = hashedPassword
+    seller.email = email
+    seller.area = area
+    seller.city = city
+    seller.state = state
+    seller.zipCode = zipCode
+    seller.country = country
 
 
     await seller.save()
@@ -165,10 +165,10 @@ export const updateSeller = async (req, res) => {
       message: "Info updated",
       success: true
     })
-   } catch (e) {
+  } catch (e) {
     return res.status(500).json({
       message: "Internal server issue",
-      success : false
+      success: false
     })
   }
 }
@@ -179,10 +179,13 @@ export const logOutSeller = async (req, res) => {
       message: "Logged out successfully.",
       success: true
     })
-   } catch (e) {
+  } catch (e) {
     return res.status(500).json({
       message: "Internal server issue",
       success: false
     })
   }
 }
+
+
+export const listedItems = async () => { }
