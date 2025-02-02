@@ -90,15 +90,9 @@ export const deleteProduct = async (req, res) => {
 
   try {
     const productId = req.params.id;
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(400).json({
-        message: "Invalid product",
-        success: false
-      })
-    }
 
-    await Product.deleteOne({ "_id": productId })
+
+    await Product.findByIdAndDelete(productId)
 
     return res.status(200).json({
       message: "Product removed",
@@ -106,7 +100,8 @@ export const deleteProduct = async (req, res) => {
     })
   } catch (e) {
     return res.status(500).json({
-      message: "Server issue", success: false
+      message: "Server issue",
+      success: false
     })
   }
 }

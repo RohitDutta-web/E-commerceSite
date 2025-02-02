@@ -8,7 +8,7 @@ const router = express();
 
 router.post("/register", sellerAuthMiddleWare, registerProduct);
 router.patch("/update/:id", sellerAuthMiddleWare, updateProduct);
-router.get("/delete/:id", sellerAuthMiddleWare, deleteProduct);
+router.delete("/delete/:id", sellerAuthMiddleWare, deleteProduct);
 router.get("/addToCart/:id", authMiddleWare, addToCart);
 router.get("/removeFromCart/:id", authMiddleWare, removeFromCart);
 router.get("/addToWishList/:id", authMiddleWare, addToWishList);
