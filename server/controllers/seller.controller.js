@@ -2,6 +2,7 @@ import Seller from "../models/seller.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import Product from "../models/product.model.js";
 dotenv.config({})
 
 export const registerSeller = async (req, res) => { //registering seller
@@ -187,5 +188,27 @@ export const logOutSeller = async (req, res) => {
   }
 }
 
+export const listedItems = async (req, res) => {
+  try {
+    const sellerId = req.seller.id;
+    const seller = await Seller.findById(sellerId).populate("listedItems");
 
-export const listedItems = async () => { }
+    if (!seller) {
+      return res.status(400).json({
+        message: "Invalid seller ID",
+        success: false
+      });
+    }
+
+    return res.status(200).json({
+      items: seller.listedItems
+    });
+
+  } catch (e) {
+    console.error("Error fetching listed items:", e);
+    return res.status(500).json({
+      message: "Server issue",
+      success: false
+    });
+  }
+};
