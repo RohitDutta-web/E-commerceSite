@@ -60,6 +60,7 @@ const sellerSchema = new mongoose.Schema({
 
 sellerSchema.index({ email: 1 })
 
+
 const Seller = mongoose.model( "Seller",sellerSchema)
 
 export default Seller;

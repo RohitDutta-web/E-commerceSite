@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios"
 import { toast } from "sonner"
 import { MdEditDocument } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 import { MdDelete } from "react-icons/md";
 export default function ListedItems() {
@@ -18,9 +19,9 @@ export default function ListedItems() {
       if (res.data.success) {
         toast.success(res.data.message)
         setList((prevList) => prevList.filter((item) => item._id !== id));
-        return 
+        return
       }
-     } catch (e) {
+    } catch (e) {
       return toast.error(e.response.data.message)
     }
   }
@@ -52,16 +53,18 @@ export default function ListedItems() {
                 <br />
                 stock : {item.stock}</p>
               <div className="flex gap-2 mr-2">
-              <MdDelete className=" rounded text-4xl bg-zinc-900 text-zinc-200 w-12 hover:bg-white hover:text-zinc-900 hover:border-2 hover:border-zinc-900  cursor-pointer " onClick={()=>{
+                <MdDelete className=" rounded text-4xl bg-zinc-900 text-zinc-200 w-12 hover:bg-white hover:text-zinc-900 hover:border-2 hover:border-zinc-900  cursor-pointer " onClick={() => {
                   deleteProduct(item._id)
                 }} />
-                <MdEditDocument className=" rounded text-4xl bg-zinc-900 text-zinc-200 w-12 hover:bg-white hover:text-zinc-900 hover:border-2 hover:border-zinc-900  cursor-pointer " />
+                <Link to={`/listedItem/${item._id}`} state={{item}}>
+                  <MdEditDocument className=" rounded text-4xl bg-zinc-900 text-zinc-200 w-12 hover:bg-white hover:text-zinc-900 hover:border-2 hover:border-zinc-900  cursor-pointer "  />
+                </Link>
               </div>
             </div>
           ))}
           {list.length < 1 ? <div className="w-full max-w-screen text-center text-4xl text-zinc-200">
             <p>No items listed yet</p>
-          </div>: null }
+          </div> : null}
         </div>
 
       </div>
