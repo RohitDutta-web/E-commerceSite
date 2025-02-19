@@ -1,13 +1,18 @@
 import express from "express";
 import { authMiddleWare } from "../middleWares/auth.middleWare.js";
 import { sellerAuthMiddleWare } from "../middleWares/sellerAccount.middleWare.js";
-import upload from "../config/multer.js";
+import multerMiddleware from "../config/multer.js";
 import { registerProduct, updateProduct, deleteProduct, addToCart, addToWishList, getAllProductDetails, getProductDetailsById, removeFromCart, removerFromWishList } from "../controllers/product.controller.js";
 
 const router = express();
 
+router.post(
+  "/register",
+  sellerAuthMiddleWare,
+  multerMiddleware,
+  registerProduct
+);
 
-router.post("/register", sellerAuthMiddleWare, upload.single("picture"), registerProduct);
 router.patch("/update/:id", sellerAuthMiddleWare, updateProduct);
 router.delete("/delete/:id", sellerAuthMiddleWare, deleteProduct);
 router.get("/addToCart/:id", authMiddleWare, addToCart);

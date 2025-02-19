@@ -5,11 +5,20 @@ import cloudinary from "./cloudinary.js";
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "ESSCOMproducts", 
+    folder: "Ecommerce",
     allowed_formats: ["jpeg", "png", "jpg"],
   },
 });
 
 const upload = multer({ storage });
 
-export default upload;
+const multerMiddleware = (req, res, next) => {
+  upload.single("picture")(req, res, (err) => {
+    if (err) {
+      return res.status(500).json({ message: "File upload failed", error: err.message });
+    }
+    next();
+  });
+};
+
+export default multerMiddleware;

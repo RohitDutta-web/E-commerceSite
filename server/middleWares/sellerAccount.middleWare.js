@@ -12,6 +12,7 @@ export const sellerAuthMiddleWare = (req, res, next) => {
 
     const verifiedData = jwt.verify(token, process.env.SECRET_KEY)
     req.seller = verifiedData;
+    
     next();
    } catch (err) {
     return res.status(500).json({

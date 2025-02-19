@@ -4,7 +4,10 @@ import User from "../models/user.model.js";
 
 
 export const registerProduct = async (req, res) => {
+ 
+  
   try {
+
 
     const { title, description, price, brand, category, stock } = req.body;
     if (!title || !description || !price || !brand || !category || !stock) {
@@ -13,6 +16,8 @@ export const registerProduct = async (req, res) => {
         success: false
       })
     }
+
+    
 
     const sellerId = req.seller.id;
     const seller = await Seller.findById(sellerId);
@@ -23,10 +28,13 @@ export const registerProduct = async (req, res) => {
         success: false
       })
     }
+
     let imageUrl = "";
     if (req.file) {
       imageUrl = req.file.path;
+      
     }
+
 
 
  
@@ -39,7 +47,7 @@ export const registerProduct = async (req, res) => {
       category,
       enlistedBy: sellerId,
       stock,
-      picture:imageUrl
+      picture: imageUrl
     })
 
     await product.save()

@@ -23,17 +23,24 @@ export default function ProductListingForm({ close }) {
 
   const handleProductFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Product Data Sent:", product);
     const formData = new FormData();
-    formData.append("title", product.title);
-    formData.append("description", product.description);
-    formData.append("price", product.price);
-    formData.append("brand", product.brand);
-    formData.append("category", product.category);
-    formData.append("stock", product.stock);
-    formData.append("picture", e.target.picture.files[0]);
-    
+    Object.keys(product).forEach((key) => {
+      formData.append(key, product[key]);
+    });
+  
 
+    const fileInput = document.getElementById("picture");
+    if (fileInput.files.length > 0) {
+      formData.append("picture", fileInput.files[0]);
+    } else {
+      toast.error("Please select an image");
+      return;
+    }
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+    
     try {
       const res = await axios.post("http://localhost:3000/api/product/register", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -45,6 +52,8 @@ export default function ProductListingForm({ close }) {
         return;
       }
     } catch (e) {
+      console.log(e);
+      
       return toast.error(e.response?.data?.message || "An error occurred");
     }
   };
@@ -78,7 +87,7 @@ export default function ProductListingForm({ close }) {
           </select>
 
           <input type="number" name="stock" placeholder="Stock" min={0} value={product.stock} onChange={handleProductFormChange} className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" />
-          <input type="file" name="picture" id="picture" className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" onChange={handleProductFormChange} />
+          <input type="file" name="picture" id="picture" className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400"  />
           <input type="submit" value="Create" className="font-bold border-2 m-2 rounded text-zinc-500 hover:text-zinc-700 hover:border-zinc-700 cursor-pointer pl-5 pb-2 pr-5 pt-2" />
         </form>
       </div>
