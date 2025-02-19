@@ -2,8 +2,10 @@ import Product from "../models/product.model.js";
 import Seller from "../models/seller.model.js";
 import User from "../models/user.model.js";
 
+
 export const registerProduct = async (req, res) => {
   try {
+
     const { title, description, price, brand, category, stock } = req.body;
     if (!title || !description || !price || !brand || !category || !stock) {
       return res.status(400).json({
@@ -21,6 +23,13 @@ export const registerProduct = async (req, res) => {
         success: false
       })
     }
+    let imageUrl = "";
+    if (req.file) {
+      imageUrl = req.file.path;
+    }
+
+
+ 
 
     const product = await Product.create({
       title,
@@ -29,7 +38,8 @@ export const registerProduct = async (req, res) => {
       brand,
       category,
       enlistedBy: sellerId,
-      stock
+      stock,
+      picture:imageUrl
     })
 
     await product.save()
@@ -43,6 +53,7 @@ export const registerProduct = async (req, res) => {
     })
 
   } catch (e) {
+    
     return res.status(500).json({
       message: "Server issue",
       success: false
@@ -85,6 +96,7 @@ export const updateProduct = async (req, res) => {
     })
   }
 }
+
 
 export const deleteProduct = async (req, res) => {
 
