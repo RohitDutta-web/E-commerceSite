@@ -82,11 +82,11 @@ export const updateProduct = async (req, res) => {
       })
     }
 
-    product.title = title;
-    product.description = description;
-    product.price = price;
+    product.title = title || product.title;
+    product.description = description || product.description;
+    product.price = price || product.price;
 
-    product.stock = stock;
+    product.stock = stock || product.stock;
 
     await product.save();
 
