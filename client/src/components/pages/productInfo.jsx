@@ -8,18 +8,16 @@ import { useLocation } from 'react-router-dom';
 
 export default function ProductInfo() {
   const location = useLocation();
-  console.log(location);
-
   const { product } = location.state;
-  console.log(product);
+  
 
   return (
     <>
       <NavBar />
-      <div className="w-full lg:flex xl:flex 2xl:flex md:flex sm:flex xs:flex-col gap-5 p-10 max-w-screen items-center">
+      <div className="w-full flex flex-col gap-5 p-10 max-w-screen items-center">
         <img src={product.picture} alt="" className="shadow-2xl m-5 w-auto h-auto" />
         <div>
-          <h1 className='font-bold text-2xl'>{product.name}</h1>
+          <h1 className='font-bold text-2xl'>{product.title}</h1>
           <p className='text-xl'>
             {product.description}
           </p>
@@ -30,7 +28,7 @@ export default function ProductInfo() {
         </div>
       </div>
 
-      <div className='flex justify-between'>
+      <div className='flex justify-between mb-10'>
         <div className='flex gap-5 ml-5'>
           <button className='outline pt-2 pb-2 pl-4 pr-4 rounded font-bold text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 '>Add to wishlist</button>
           <button className='outline pt-2 pb-2 pl-4 pr-4 rounded font-bold text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 '>Add to cart</button>

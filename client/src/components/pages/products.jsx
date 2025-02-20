@@ -1,28 +1,29 @@
-
+import { toast } from "sonner"
 import ProductCard from "../productCard"
 import { Link } from "react-router-dom"
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 export default function AllProducts() {
+  const [products, setProducts] = useState([]);
+ 
 
-  const products = [
-    {
-      id: "5w6ds8e7wd23a7ws64",
-      name: "Iphone",
-      description: "iphone 16, newly launched 256 gb , blue , retina display bla bla bla bla",
-      category: "phones",
-      rating: 4.5,
-      picture: "https://m.media-amazon.com/images/I/31lr3Ij6iBL._SY445_SX342_QL70_FMwebp_.jpg",
-      price: 1000
-    },
-    {
-      id: "5w6dsawdsdt765e7wd23a7ws64",
-      name: "Mac Book",
-      description: "Apple MacBook Air Laptop: Apple M1 chip, 13.3-inch/33.74 cm Retina Display, 8GB RAM, 256GB SSD Storage, Backlit Keyboard, FaceTime HD Camera, Touch ID. Works with iPhone/iPad; Space Grey",
-      category: "laptop",
-      rating: 4,
-      picture: "https://m.media-amazon.com/images/I/316ArzLeJ2L._SX300_SY300_QL70_FMwebp_.jpg",
-      price: 2800
+  const getProductDetails = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/product/allProducts");
+      setProducts(res.data.products); 
+    } catch (e) {
+      toast.error(e.response?.data?.message || "Failed to fetch products");
     }
-  ];
+  };
+
+  useEffect(() => {
+    getProductDetails();
+  }, []);
+
+  useEffect(() => {
+    getProductDetails()
+  },[])
   return (
     <>
       <p className="w-full text-center font-bold text-xl mt-5 mb-5">All Products</p>
@@ -117,15 +118,19 @@ export default function AllProducts() {
         <div className="flex flex-wrap gap-5">
           {
             products.map((product) => (
-              <Link to={`/${product.id}`}
+              <Link to={`/${product._id}`}
                 state={{ product }}
-                key={product.id}>
+                key={product._id}>
               <ProductCard {...product} /> 
               </Link>
             ))
  }
         </div>
+        
       </div>
+      <div className="w-full max-w-screen flex justify-center mt-10 mb-10">
+          <button className="border-2 border-zinc-800 pl-7 pr-7 pt-3 pb-3 font-bold text-xl bg-zinc-800 text-white rounded hover:bg-white hover:text-zinc-800">load more</button>
+        </div>
     </>
   )
 }

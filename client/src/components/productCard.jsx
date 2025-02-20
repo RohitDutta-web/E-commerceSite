@@ -1,6 +1,6 @@
 
 
-export default function ProductCard({category, name, picture, price}) {
+export default function ProductCard({category, title, picture, price}) {
   return (
     <>
 
@@ -11,7 +11,7 @@ export default function ProductCard({category, name, picture, price}) {
       <div className="p-6">
         <div className="capitalize flex items-center justify-between gap-4">
           <div>
-                <h2 className="text-red-600 text-lg font-bold">{name }</h2>
+                <h2 className="text-red-600 text-lg font-bold">{title }</h2>
                 <p className="dark:text-gray-100">Category : <span className="font-bold">{category }</span></p>
           </div>
           <div>
