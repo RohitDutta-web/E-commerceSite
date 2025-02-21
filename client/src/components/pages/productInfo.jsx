@@ -3,13 +3,62 @@ import Rating from '@mui/material/Rating';
 import ShinyButton from "@/components/ui/shiny-button";
 import NavBar from '../navBar';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 
 
 export default function ProductInfo() {
   const location = useLocation();
   const { product } = location.state;
-  
+  const { user, isLoggedin } = useSelector(store => store.user)
+
+
+  const handleAddToCart = async (e) => {
+    e.preventDefault();
+    try {
+      if (!user && !isLoggedin) return toast.error("Please login as a user")
+      const res = await axios.get(`http://localhost:3000/api/product/addToCart/${product._id}`, { withCredentials: true })
+      if (res.data.success) {
+        toast.success(res.data.message)
+        return;
+      }
+
+    } catch (e) {
+      toast.error(e.response.data.message);
+      return;
+    }
+  }
+
+
+  const handleAddToWishList = async (e) => {
+    e.preventDefault();
+    try {
+      if (!user && !isLoggedin) return toast.error("Please login as a user")
+      const res = await axios.get(`http://localhost:3000/api/product/addToWishList/${product._id}`, { withCredentials: true })
+      if (res.data.success) {
+        toast.success(res.data.message)
+        return;
+      }
+    } catch (e) {
+      toast.error(e.response.data.message);
+      return;
+    }
+  }
+
+  const handleBuyNow = async (e) => {
+    e.preventDefault();
+    try {
+      if (!user && !isLoggedin) return toast.error("Please login as a user")
+
+    } catch (e) {
+      toast.error(e.response.data.message);
+      return;
+    }
+  }
+
+
 
   return (
     <>
@@ -30,11 +79,11 @@ export default function ProductInfo() {
 
       <div className='flex justify-between mb-10'>
         <div className='flex gap-5 ml-5'>
-          <button className='outline pt-2 pb-2 pl-4 pr-4 rounded font-bold text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 '>Add to wishlist</button>
-          <button className='outline pt-2 pb-2 pl-4 pr-4 rounded font-bold text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 '>Add to cart</button>
+          <button className='outline pt-2 pb-2 pl-4 pr-4 rounded font-bold text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 ' onClick={handleAddToWishList}>Add to wishlist</button>
+          <button className='outline pt-2 pb-2 pl-4 pr-4 rounded font-bold text-white bg-zinc-900 hover:bg-white hover:text-zinc-900 ' onClick={handleAddToCart}>Add to cart</button>
 
         </div>
-        <ShinyButton className="font-bold mr-10">Buy Now</ShinyButton>
+        <ShinyButton className="font-bold mr-10" onClick={handleBuyNow}>Buy Now</ShinyButton>
 
       </div>
     </>

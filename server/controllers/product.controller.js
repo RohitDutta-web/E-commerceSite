@@ -4,8 +4,8 @@ import User from "../models/user.model.js";
 
 
 export const registerProduct = async (req, res) => {
- 
-  
+
+
   try {
 
 
@@ -17,7 +17,7 @@ export const registerProduct = async (req, res) => {
       })
     }
 
-    
+
 
     const sellerId = req.seller.id;
     const seller = await Seller.findById(sellerId);
@@ -32,12 +32,12 @@ export const registerProduct = async (req, res) => {
     let imageUrl = "";
     if (req.file) {
       imageUrl = req.file.path;
-      
+
     }
 
 
 
- 
+
 
     const product = await Product.create({
       title,
@@ -61,7 +61,7 @@ export const registerProduct = async (req, res) => {
     })
 
   } catch (e) {
-    
+
     return res.status(500).json({
       message: "Server issue",
       success: false
@@ -202,6 +202,8 @@ export const addToCart = async (req, res) => {
     }
 
     user.cart.push(product._id);
+    product.stock = product.stock - 1
+    await product.save()
     await user.save();
     return res.status(200).json({
       message: "Added to cart",
