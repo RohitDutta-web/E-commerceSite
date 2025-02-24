@@ -4,14 +4,18 @@ import { Link } from "react-router-dom"
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Skeleton from '@mui/material/Skeleton';
 export default function AllProducts() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
  
 
   const getProductDetails = async () => {
     try {
+      setLoading(true);
       const res = await axios.get("http://localhost:3000/api/product/allProducts");
       setProducts(res.data.products); 
+      setLoading(false);
     } catch (e) {
       toast.error(e.response?.data?.message || "Failed to fetch products");
     }
@@ -117,13 +121,17 @@ export default function AllProducts() {
         </div>
         <div className="flex flex-wrap gap-5">
           {
-            products.map((product) => (
+            loading ? (<>
+              <Skeleton variant="rectangular" width={210} height={118} />
+              <Skeleton variant="rectangular" width={210} height={118} />
+              <Skeleton variant="rectangular" width={210} height={118} />
+            </>) : (products.map((product) => (
               <Link to={`/${product._id}`}
                 state={{ product }}
                 key={product._id}>
               <ProductCard {...product} /> 
               </Link>
-            ))
+            )))
  }
         </div>
         
