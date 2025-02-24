@@ -150,6 +150,37 @@ export const getAllProductDetails = async (req, res) => {
 
 }
 
+
+export const getProductsTHoughCategory = async (req, res) => {
+  try {
+    const category = req.params.category
+
+    const products = await Product.find({ category: category });
+
+    if (!products) {
+      return res.status(400).json({
+        message: "Category products not available",
+        successL: false
+      })
+    }
+
+    return res.status(200).json({
+      products
+    })
+
+  }
+  catch (e) {
+    return res.status(500).json(
+      { message: "Internal error", success: false }
+
+    )
+  }
+}
+
+
+
+
+
 export const getProductDetailsById = async (req, res) => {
   try {
     const productId = req.params.id;

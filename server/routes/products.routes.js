@@ -2,7 +2,7 @@ import express from "express";
 import { authMiddleWare } from "../middleWares/auth.middleWare.js";
 import { sellerAuthMiddleWare } from "../middleWares/sellerAccount.middleWare.js";
 import multerMiddleware from "../config/multer.js";
-import { registerProduct, updateProduct, deleteProduct, addToCart, addToWishList, getAllProductDetails, getProductDetailsById, removeFromCart, removerFromWishList } from "../controllers/product.controller.js";
+import { registerProduct,getProductsTHoughCategory, updateProduct, deleteProduct, addToCart, addToWishList, getAllProductDetails, getProductDetailsById, removeFromCart, removerFromWishList } from "../controllers/product.controller.js";
 
 const router = express();
 
@@ -21,5 +21,6 @@ router.get("/addToWishList/:id", authMiddleWare, addToWishList);
 router.get("/removeFromWishList/:id", authMiddleWare, removerFromWishList);
 router.get("/allProducts", getAllProductDetails);
 router.get("/getProduct/:id", getProductDetailsById);
+router.get("/:category", getProductsTHoughCategory)
 
 export default router;
