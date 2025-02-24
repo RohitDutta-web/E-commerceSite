@@ -18,6 +18,7 @@ import SellerPage from './components/pages/sellerPage';
 import OrderPage from './components/pages/orderPage';
 import SellerUpdateForum from './components/pages/sellerUpdateForum';
 import ProductSellerSide from './components/pages/productSellerSide';
+import ProductsByCategory from './components/pages/productsByCategory';
 
 
 
@@ -47,6 +48,7 @@ function App() {
         <Route path='/seller/updateInfo' element={<SellerUpdateForum />} />
         <Route path="/seller/listedItems" element={<ListedItems />} />
         <Route path="/listedItem/:id" element={<ProductSellerSide />} />
+        <Route path='/category/:category' element={<ProductsByCategory/> } />
       </Routes>
 
     </BrowserRouter>
