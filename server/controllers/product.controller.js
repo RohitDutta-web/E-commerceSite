@@ -9,7 +9,7 @@ export const registerProduct = async (req, res) => {
   try {
 
 
-    const { title, description, price, brand, category, stock } = req.body;
+    const { title, description, price, brand, category, stock, discount } = req.body;
     if (!title || !description || !price || !brand || !category || !stock) {
       return res.status(400).json({
         message: "Missing product details",
@@ -47,7 +47,8 @@ export const registerProduct = async (req, res) => {
       category,
       enlistedBy: sellerId,
       stock,
-      picture: imageUrl
+      picture: imageUrl,
+      discount
     })
 
     await product.save()

@@ -10,8 +10,9 @@ export default function ProductListingForm({ close }) {
     brand: "",
     category: "",
     stock: "",
+    discount: 0
   });
-  
+
 
   const handleProductFormChange = (event) => {
     const { name, value } = event.target;
@@ -27,7 +28,7 @@ export default function ProductListingForm({ close }) {
     Object.keys(product).forEach((key) => {
       formData.append(key, product[key]);
     });
-  
+
 
     const fileInput = document.getElementById("picture");
     if (fileInput.files.length > 0) {
@@ -40,7 +41,7 @@ export default function ProductListingForm({ close }) {
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    
+
     try {
       const res = await axios.post("http://localhost:3000/api/product/register", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -53,14 +54,14 @@ export default function ProductListingForm({ close }) {
       }
     } catch (e) {
       console.log(e);
-      
+
       return toast.error(e.response?.data?.message || "An error occurred");
     }
   };
 
   return (
     <>
-      <div className="border-2 w-96 fixed top-[10%] z-40 left-[40%] shadow-2xl p-5">
+      <div className="border-2 w-96 absolute top-[10%] z-40 left-[40%] shadow-2xl p-5">
         <p className="w-full text-end font-bold mb-5">
           <span className="cursor-pointer" onClick={() => close()}>
             Close
@@ -71,10 +72,11 @@ export default function ProductListingForm({ close }) {
           <input type="text" name="description" placeholder="Description" value={product.description} onChange={handleProductFormChange} className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" />
           <input type="text" name="price" placeholder="Price" value={product.price} onChange={handleProductFormChange} className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" />
           <input type="text" name="brand" placeholder="Brand" value={product.brand} onChange={handleProductFormChange} className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" />
-          
+          <input type="number" name="discount" placeholder="discount if not place 0" min={0} onChange={handleProductFormChange} className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" />
+
           <label htmlFor="category" className="text-zinc-400">Select product category</label>
           <select name="category" id="category" value={product.category} onChange={handleProductFormChange} className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400">
-          <option value="not selected">Not selected</option>
+            <option value="not selected">Not selected</option>
             <option value="phone">Phone</option>
             <option value="desktop accessories">Desktop accessories</option>
             <option value="laptop">Laptop</option>
@@ -87,7 +89,7 @@ export default function ProductListingForm({ close }) {
           </select>
 
           <input type="number" name="stock" placeholder="Stock" min={0} value={product.stock} onChange={handleProductFormChange} className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" />
-          <input type="file" name="picture" id="picture" className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400"  />
+          <input type="file" name="picture" id="picture" className="w-full border-2 m-2 rounded-full p-3 outline-none text-zinc-400" />
           <input type="submit" value="Create" className="font-bold border-2 m-2 rounded text-zinc-500 hover:text-zinc-700 hover:border-zinc-700 cursor-pointer pl-5 pb-2 pr-5 pt-2" />
         </form>
       </div>

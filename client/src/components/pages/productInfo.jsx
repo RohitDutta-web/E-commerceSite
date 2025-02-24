@@ -64,7 +64,7 @@ export default function ProductInfo() {
     <>
       <NavBar />
       <div className="w-full flex flex-col gap-5 p-10 max-w-screen items-center">
-        <img src={product.picture} alt="" className="shadow-2xl m-5 w-auto h-auto" />
+        <img src={product.picture} alt="" className="shadow-2xl m-5 w-[30%] h-[30%]" />
         <div>
           <h1 className='font-bold text-2xl'>{product.title}</h1>
           <p className='text-xl'>
@@ -73,7 +73,9 @@ export default function ProductInfo() {
           <Box sx={{ '& > legend': { mt: 2 } }}>
             <Rating name="read-only" value={product.rating} readOnly />
           </Box>
-          <p className='text-xl'>${product.price}</p>
+          <p className={product.afterDiscountAmt ? 'text-xl line-through' : 'text-xl'}>${product.price}</p>
+          {product.discount > 0 ? <p>{product.discount} % discount</p> : null}
+          { product.discount > 0 ? <p className='text-2xl font-bold'>{`$${product.afterDiscountAmt}`}</p> : null }
         </div>
       </div>
 

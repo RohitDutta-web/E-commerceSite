@@ -14,6 +14,13 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  discount: {
+    type: Number,
+    default: 0,
+  },
+  afterDiscountAmt: {
+    type: Number
+  },
   picture: {
     type: String
   },
@@ -47,7 +54,16 @@ const productSchema = new mongoose.Schema({
     type: Number
   }
 })
-productSchema.index({ name: 1, category: 1 });
+
+productSchema.pre("save", function (next) {
+  if (this.price && this.discount !== undefined) {
+    const price = Number(this.price);
+    const discount = Number(this.discount);
+
+    this.afterDiscountAmt = Math.round(price - (price * discount) / 100);
+  }
+  next();
+});
 
 const Product = mongoose.model("Product", productSchema)
 
